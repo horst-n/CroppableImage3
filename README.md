@@ -72,7 +72,7 @@ If you haven't cropped that image yet (via the cropping tool), a default croppin
 
 #### Current Version (PW 3.0.20+) developed by
 * Horst Nogajski (@horst-n)
-* Sponsored by http://dreikon.de/
+* Sponsored by http://dreikon.de/ (many thanks Niko & Timo!)
 
 ##### Intermediate Version (PW 2.5.11+)
 * Horst Nogajski
