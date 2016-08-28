@@ -1,0 +1,223 @@
+<?php namespace ProcessWire;
+
+
+class InputfieldCroppableImage3 extends InputfieldImage {
+
+	public static function getModuleInfo() {
+		return array(
+            'title'    => 'Croppable Image 3 (Inputfield)',
+			'summary'  => 'One or more image uploads (optional predefined crops)',
+            'author'   => 'Horst Nogajski',
+            'version'  => '0.9.10',
+            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=0.9.9',
+            'icon'     => 'crop'
+ 		);
+	}
+
+    public function __construct() {
+        parent::__construct();
+        require_once(dirname(__FILE__) . '/../classes/CroppableImage3CropSettings.class.php');
+        require_once(dirname(__FILE__) . '/../classes/CroppableImage3Helpers.class.php');
+    }
+
+	public function init() {
+		parent::init();
+        // default settings
+        $this->set('cropSetting', '');
+        // we definetly need this to be displayed, as it contains the cropLinks !!
+        $this->set('useImageEditor', 1);
+        $this->labels = array_merge($this->labels, array(
+            'caiName' => $this->_('Name')
+        ));
+	}
+
+    public function renderReady(Inputfield $parent = null, $renderValueMode = false) {
+        $this->wire('modules')->loadModuleFileAssets('InputfieldImage');
+        $this->addClass('InputfieldImage', 'wrapClass');
+        return parent::renderReady($parent, $renderValueMode);
+    }
+
+    public function ___render() {
+        $out = parent::___render();
+        #$this->config->styles->remove($this->config->urls->InputfieldImage . "InputfieldImage.css");
+        #$this->config->styles->remove($this->config->urls->InputfieldCroppableImage3 . "InputfieldCroppableImage3.css");
+        #$this->config->styles->add($this->config->urls->InputfieldImage . "InputfieldImage.css");
+        #$this->config->styles->add($this->config->urls->InputfieldCroppableImage3 . "InputfieldCroppableImage3.css");
+        return $out;
+    }
+
+	protected function ___renderButtons($pagefile, $id, $n) {
+        $out = parent::___renderButtons($pagefile, $id, $n);
+        $out = "<div class='croppableImageButtons'><p>" . $this->_("predefined Crops") . "</p>" .
+                $this->getCropLinks($pagefile) . "</div>" . $out;
+		return $out;
+	}
+
+    /**
+     * Returns the croplinks HTML string or boolean false. Depending on field
+     * configuration.
+     *
+     * @param Pagefile $pagefile
+     * @return mixed (string|bool false)
+     *
+     */
+    private function getCropLinks($pagefile) {
+
+        $cropSettings = new CroppableImage3CropSettings($this->cropSetting);
+
+        // no crops, no glory
+        if(!count($cropSettings->items)) return false;
+
+        $baseCropUrl = $this->config->urls->admin . "page/" . ProcessCroppableImage3::adminPageName . "/";
+        $upscaling = CroppableImage3Helpers::getGlobalImageSetting('upscaling');  // setting 1x holen reicht :)
+        $templateName = $pagefile->page->template->name;
+        $imageWidth = $pagefile->width;
+        $imageHeight = $pagefile->height;
+        $adminThumb = $this->getAdminThumb($pagefile);
+        $jsCropInfo = array();
+        $out = '';
+
+        // crop previews
+//        $w = $pagefile->width;
+//        $h = $pagefile->height;
+//        $adminThumb['attr']['data-grid-x'] = ceil(140 / $w * $h);
+//        $adminThumb['attr']['data-grid-y'] = ceil(140 / $h * $w);
+
+//my_var_dump($w,1);
+//my_var_dump($h,1);
+//my_var_dump($adminThumb,1);die();
+
+        foreach($cropSettings->items as $cropSetting) {
+
+            if(!$cropSetting->isTemplateAllowed($templateName)) continue;
+
+            $warning = false;
+            $suffix = $this->sanitizer->name($cropSetting->name);
+            $imageTooSmall = $cropSetting->width > $imageWidth || $cropSetting->height > $imageHeight;
+
+            // Upscaling not allowed ($config setting)
+            if($imageTooSmall && $upscaling === false) {
+                $warning = sprintf($this->_('This crop setting (%s) is larger than the source image (%s) and upscaling is not allowed.'),
+                    "{$cropSetting->width}x{$cropSetting->height}",
+                    "{$imageWidth}x{$imageHeight}");
+            }
+
+            // CropUrl with additional parameters
+            $cropUrlWithParams = $baseCropUrl . '?' . http_build_query(array(
+                'filename' => $pagefile->basename,
+                'suffix' => $suffix,
+                'width' => $cropSetting->width,
+                'height' => $cropSetting->height,
+                'pages_id' => (int) $this->input->get->id,
+                'field' => mb_strtolower($this->name),  // TODO: name to lowercase ??? N: Yes! ;-)  ()
+                'modal' => 1
+                ));
+
+            // HTML attributes
+            $attr = array('data-suffix' => $suffix);
+
+            // Upscaling not allowed ($config setting)
+            if($warning) {
+                $attr['data-croppable'] = 0;
+                $attr['class'] = 'crop-button ui-state-error';
+                $attr['data-warning'] = $warning;
+            } else {
+                $attr['data-croppable'] = 1;
+                $attr['class'] = 'crop-button ui-button ui-button pw-modal-large pw-modal ui-state-default';
+                $attr['href'] = $cropUrlWithParams;
+                $attr['target'] = '_blank';
+                $attr['data-image'] = $pagefile->getCrop($suffix)->url;
+                $attr['data-width'] = $cropSetting->width;
+            }
+
+            // Dimensions per crop
+            $jsCropInfo['crops'][$suffix] = array(
+                'width' => $cropSetting->width,
+                'height' => $cropSetting->height,
+            );
+
+            $out .= "<a href='$cropUrlWithParams' " . CroppableImage3Helpers::arrayToHtmlAttr($attr) . ">";
+            $out .= "<i class='fa "  . ($warning ? 'fa-exclamation-circle' : 'fa-crop') . "'></i> ";
+            $out .= "<span>";
+            $out .= $cropSetting->name;
+            $out .= "</span> ";
+            $out .= "</a>";
+
+        }
+
+        // translatable
+        $jsCropInfo['text'] = array(
+            'edit' => $this->_('edit'),
+            'empty_fields' => $this->_('Some input fields are empty')
+        );
+
+//        $jsCropInfo['grid'] = array(
+//            'x' => $adminThumb['attr']['data-grid-x'],
+//            'y' => $adminThumb['attr']['data-grid-y'],
+//        );
+
+        $this->config->js('CroppableImage3', $jsCropInfo);
+
+        return $out ? "<div class='cropLinks'>{$out}</div>" : false;
+    }
+
+                    #protected function renderItemWrap($out) {
+                    #    $item = $this->currentItem;
+                    #    $id = $item && !$this->renderValueMode ? " id='file_$item->hash'" : "";
+                    #    return "<li$id class='ImageOuter {$this->itemClass}'>$out</li>";
+                    #}
+
+
+	        protected function ___buildTooltipData($pagefile) {
+
+		        $data = array(
+                    array(
+                        $this->labels['caiName'],
+                        "{$pagefile->name}"
+                    ),
+                    array(
+				        $this->labels['dimensions'],
+				        "{$pagefile->width}x{$pagefile->height}"
+			        ),
+			        array(
+				        $this->labels['filesize'],
+				        str_replace(' ', '&nbsp;', $pagefile->filesizeStr)
+			        ),
+			        array(
+				        $this->labels['variations'],
+				        count($this->getPagefileVariations($pagefile))
+			        )
+		        );
+
+		        if(strlen($pagefile->description)) {
+			        $data[] = array(
+				        $this->labels['description'],
+				        "<span class='fa fa-check'></span>"
+			        );
+		        }
+
+		        if($this->useTags && strlen($pagefile->tags)) {
+			        $data[] = array(
+				        $this->labels['tags'],
+				        "<span class='fa fa-check'></span>"
+			        );
+		        }
+
+		        return $data;
+	        }
+
+
+    public function ___getConfigInputfields() {
+        $inputfields = parent::___getConfigInputfields();
+
+        $field = $this->modules->get("InputfieldTextarea");
+        $field->attr('name', 'cropSetting');
+        $field->attr('value', (string) $this->cropSetting );
+        $field->label = $this->_("Crop Settings");
+        $field->description = $this->_('Enter all crop dimensions, one on each line in this format: name,width,height. Few examples: "landscape,900,600" or "portrait,200,600". Optionally, you can bind a cropsetting to only explicitly named templates by giving the templatename(s) as last parameter(s). Examples: "panorama,1200,600,home" or "square,300,300,basic-page,home"');
+        $inputfields->add($field);
+
+        return $inputfields;
+    }
+
+}

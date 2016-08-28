@@ -1,0 +1,253 @@
+/**
+ *
+ * InputfieldCroppableImage3.css - v 0.9.9
+ *
+**/
+
+/*****************************************************************************************/
+/** Overrides of core settings **/
+
+  /** Info color **/
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit > span,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     span.InputfieldImageEdit__info {
+        color: #444;
+    }
+
+  /** GridImage Tooltip **/
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     .gridImage__tooltip {
+        /*transform: translate(-50%, 0);*/
+        /*transform: translate(-50%, 0) perspective(0) scale(1);*/
+        background: #fafafa;
+        opacity: 0;
+        transition: opacity .2s 02;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     .gridImage:hover .gridImage__tooltip {
+        display: block;
+        opacity: 1;
+        transition: opacity .2s 1s;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     .gridImage__tooltip table {
+        margin: 0;
+        border-spacing: 10px 0;
+        border-collapse: separate;
+        background: transparent !important;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     .gridImage__tooltip table th {
+        color: rgb(120,120,120);
+        font-weight: normal;
+        text-align: right;
+        background: transparent !important;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     .gridImage__tooltip table td {
+        color: rgb(25,25,25);
+        font-weight: bold;
+        text-align: left;
+        background: transparent !important;
+    }
+
+  /** GridImage Background **/
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     .gridImage {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        background: rgba(255,255,255,.3);
+        border: 1px dashed transparent;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     .gridImage:hover {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        background: rgba(255,255,255,.6);
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     .gridImage.gridImage--delete {
+        background: #E83561;
+    }
+
+/*****************************************************************************************/
+
+
+
+
+
+
+
+
+/*****************************************************************************************/
+  /** the Croppable Buttons **/
+
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons {
+        margin-top: 0;
+        margin-bottom: 20px;
+        padding-top: 16px;
+        padding-bottom: 20px;
+        border-top: 2px solid rgba(0,0,0,.2);
+        border-bottom: 2px solid rgba(0,0,0,.2);
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > p,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > p {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: rgba(0,0,0,.3);
+        padding: 0 5px 0 5px;
+        margin: 0 0 12px 0;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-hover,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-hover,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error {
+        font-size: 1.2em !important;
+        font-weight: bold !important;
+        padding: 12px 18px 12px 18px !important;
+        margin: 5px !important;
+        border: 0 none transparent !important;
+        border-radius: 0px !important;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error {
+        padding: 11px 18px 13px 18px !important;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error:hover,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error:hover {
+        color: #fff;
+        background-color: #FF0000;
+    }
+
+/*****************************************************************************************/
+
+
+
+
+
+
+
+
+/*****************************************************************************************/
+  /** Overrides of core settings for the "Edit All" mode ("list" mode) **/
+
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage {
+        display: block;
+        width: 100%;
+        background-color: rgba(255,255,255,.7);
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage:hover {
+        background-color: rgba(255,255,255,1);
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage:before,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage:after {
+        content: "";
+        display: table;
+        border-collapse: collapse;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage:after {
+        clear: both;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage__overflow {
+        padding: 0;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage__overflow > img {
+          display: block;
+          position: static !important;
+          width: 100%;
+          max-width: 100% important;
+          height: initial !important;
+          padding: 0 0 0 0;
+    }
+
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll div.croppableImageButtons {
+        padding-top: 0;
+        border-top: 0 none;
+        border-bottom-width: 1px;
+        padding-bottom: 4px;
+        margin-bottom: 7px;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll div.croppableImageButtons > p {
+        display: none;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll div.croppableImageButtons > div.cropLinks > a.crop-button,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll div.croppableImageButtons > div.cropLinks > a.crop-button:hover {
+        padding: 4px 6px 4px 6px !important;
+        margin: 3px !important;
+    }
+
+/*****************************************************************************************/
+
+
+
+
+
+
+
+
+/*****************************************************************************************/
+  /** Crop image buttons thumbnail & warning tooltips **/
+
+    .croppableTooltip {
+        border-radius: 0px;
+        box-shadow:
+            0 1px 2px rgba(0,0,0,.65),
+            0 0 4px rgba(0,0,0,.35);
+        border: 0;
+        color: #444;
+        background: #fafafa;
+        font-weight: normal;
+        text-transform: inherit;
+        padding: 0;
+        max-width:260px !important;
+        max-height:260px !important;
+    }
+    .croppableTooltip.warning {
+        padding: .5em;
+        color: #FFF;
+        background: #D82003;
+        text-align: justify;
+    }
+    .croppableTooltip img {
+        display: block;
+        max-width:260px;
+        max-height:260px;
+        width:auto;
+        height:auto;
+        margin: 0;
+        padding: 0;
+    }
+    /* size info crop tooltip */
+    .cropInfo {
+        position: absolute;
+        font-size: .9em;
+        font-weight: normal;
+        bottom: 0;
+        right: 0;
+        padding: 0 .5em;
+        height: 1.5em;
+        line-height: 1.5em;
+        color: #FFF;
+        text-shadow: 0 0 2px rgba(0,0,0,.2);
+        background: rgba(0,0,0,.3);
+    }
+
+/*****************************************************************************************/
+
+
+
+
+
+
+
+
+/*****************************************************************************************/
+  /** Transparent-Images Background **/
+
+    .croppableTooltip img,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3 div.gridImage__overflow,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .InputfieldImageEdit__imagewrapper > div > img {
+        background: transparent;
+        background-color: rgba(196,196,196,.7);
+        background-image: url("data:image/png;base64,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");
+        background-size: 32px 32px;
+        background-position: 0 0, 16px 16px;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3 div.gridImage__overflow:hover,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .InputfieldImageEdit__imagewrapper > div > img:hover {
+        background-color: rgba(55,55,55,.9);
+    }
+
+/*****************************************************************************************/
