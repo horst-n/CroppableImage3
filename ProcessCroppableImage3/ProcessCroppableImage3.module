@@ -8,7 +8,7 @@ class ProcessCroppableImage3 extends Process implements Module {
             'title'    => 'Croppable Images (Process)',
             'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '0.9.10',
+            'version'  => '0.9.11',
             'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=0.9.9',
             'icon'     => 'crop'
          );
@@ -299,8 +299,8 @@ class ProcessCroppableImage3 extends Process implements Module {
             $confirmCropText = sprintf($this->_('Uh! An Error has occured: %s'), $this->error);
             $cropAgainText = $this->_('Do you want try it again?');
         } else {
-            $confirmCropText = $this->_('Wow, that looks great!');
-            $cropAgainText = $this->_('Not happy? Crop again!');
+            $confirmCropText = $this->_('Accept!');
+            $cropAgainText = $this->_('Redo Crop');
             // keep as session & permanent storage
             $keepCoords = new CroppableImage3KeepCoords($img, $suffix, $targetWidth, $targetHeight);
             $keepCoords->write($crop['x1'], $crop['y1'], $crop['w'], $crop['h'], $quality, $sharpening);

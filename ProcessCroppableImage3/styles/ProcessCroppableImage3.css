@@ -103,20 +103,30 @@ body.modal, #content {
     opacity: 0;
 }
 
+
 #results {
     text-align: center;
     background: #eee;
     padding: 50px 20px;
 }
-
 #results img {
     margin: 0 auto;
     max-width: 100%;
 }
-
 #results .ui-button {
-    margin: 0;
+    margin: 30px 3px 0 3px;
 }
+#results ul, #results ul li {
+    display: inline;
+}
+
+
+
+
+
+
+
+
 
 #bd {
     text-align: center;
