@@ -8,12 +8,23 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
 			'title'    => 'Croppable Image 3 (Fieldtype)',
 			'summary'  => 'Field that stores one or more GIF, JPG, or PNG images and support optional predefined crop functionality',
             'author'   => 'Horst Nogajski',
-            'version'  => '0.9.11',
+            'version'  => '0.9.12',
             'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8',  // , FieldtypeRangeSlider
             'installs' => 'InputfieldCroppableImage3, ProcessCroppableImage3',
             'icon'     => 'crop'
 		);
 	}
+
+    protected $textCollection = array();
+
+    protected function getText($key, $default = '(N/A)') {
+        if(!isset($this->textCollection['CroppableImage3TextCollectionVersion'])) {
+            require_once(dirname(__FILE__) . '/../lang/CroppableImage3TextCollection.php');
+            $c = new CroppableImage3TextCollection();
+            $this->textCollection = $c->combine($this->textCollection);
+        }
+        return isset($this->textCollection[$key]) ? $this->textCollection[$key] : $default;
+    }
 
     public function __construct() {
         parent::__construct();
@@ -98,7 +109,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         if (count($cropSettings->invalidLines) > 0) {
             $valid = false;
             foreach ($cropSettings->invalidLines as $invalidLine) {
-                $this->error(sprintf($this->_("Crop Settings: This line is not a valid crop setting: '%s'"), $invalidLine));
+                $this->error(sprintf($this->getText('cropSettings_invalidLine'), $invalidLine));
             }
         }
 
@@ -112,7 +123,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         }
         if (count($invalidTemplates) > 0) {
             $this->warning(sprintf(
-                $this->_("Crop Settings: The following templates have not been found: '%s'"),
+                $this->getText('cropSettings_invalidTemplates'),
                 implode("', '", $invalidTemplates)
             ));
         }
@@ -120,7 +131,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         // check for duplicates
         foreach ($cropSettings->duplicates as $name => $duplicate) {
             $valid = false;
-            $this->error(sprintf($this->_("Crop setting names must be unique, '%s' is already defined: '%s'"), $name, $duplicate));
+            $this->error(sprintf($this->getText('cropSettings_mustbeunique'), $name, $duplicate));
         }
 
         // if a user has made invalid changes, we drop new settings and 'restore' the previously used
@@ -129,7 +140,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
             // Restore the previous one and return;
             $event->return = $this->fields->get($args->id)->cropSetting;
             $event->replace = true;
-            $this->error($this->_("Because of invalid Crop-Settings that may result in unwanted removal of variations, we restore the previously used settings now!"));
+            $this->error($this->getText('cropSettings_RestoreMsg'));
             return;
         }
 
@@ -193,7 +204,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
             $this->h = $cropSetting->height;
         } else {
             throw new WireException(sprintf(
-                $this->_("There is no crop setting for the template '%s' called '%s'"),
+                $this->getText('cropSettings_NoSetting4Template'),
                 $templateName,
                 $suffix
             ));
@@ -201,7 +212,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         }
 
         if ($this->w < 1 && $this->h < 1) {
-            throw new WireException(sprintf($this->_("Width and height not found for crop setting '%s'"), $thumb));
+            throw new WireException(sprintf($this->getText('cropSettings_widthHeightNotFound'), $thumb));
             return;
         }
 
@@ -429,6 +440,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
     // bool, if current user is allowed to use dropdown selects for quality and sharpening
     protected $manualSelectionAllowed;
     protected $useImageEngineDefaults;
+    protected $labelTextType;
     protected $globalOptions;
 
     static public function getDefaultData() {

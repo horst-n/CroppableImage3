@@ -2,20 +2,16 @@
 
 class ProcessCroppableImage3 extends Process implements Module {
 
-
     public static function getModuleInfo() {
         return array(
             'title'    => 'Croppable Images (Process)',
             'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '0.9.11',
+            'version'  => '0.9.12',
             'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=0.9.9',
             'icon'     => 'crop'
          );
     }
-
-
-    const ciVersion = 99;
 
     /**
      * Name used for the page created in the admin
@@ -24,7 +20,16 @@ class ProcessCroppableImage3 extends Process implements Module {
 
     static protected $sharpeningValues = array('none', 'soft', 'medium', 'strong');
 
+    protected $textCollection = array();
 
+    protected function getText($key, $default = '(N/A)') {
+        if(!isset($this->textCollection['CroppableImage3TextCollectionVersion'])) {
+            require_once(__DIR__ . '/../lang/CroppableImage3TextCollection.php');
+            $c = new CroppableImage3TextCollection();
+            $this->textCollection = $c->combine($this->textCollection);
+        }
+        return isset($this->textCollection[$key]) ? $this->textCollection[$key] : $default;
+    }
 
     public function __construct() {
         require_once(dirname(__FILE__) . '/../classes/CroppableImage3KeepCoords.class.php');
@@ -86,7 +91,7 @@ class ProcessCroppableImage3 extends Process implements Module {
 
         if($pages_id < 0 || strlen($filename) < 3) {
             $out = CroppableImage3Helpers::getTemplate("jcrop", array(
-                "invalidFieldText" => $this->_("This page only works when you come from image field.")
+                'invalidFieldText' => $this->getText('invalidFieldText')
             ));
             return $out->render();
         }
@@ -143,9 +148,9 @@ class ProcessCroppableImage3 extends Process implements Module {
 
 
         $out = CroppableImage3Helpers::getTemplate("jcrop", array(
-            'applyCropText' => $this->_("Crop and go"),
+            'applyCropText' => $this->getText('applyCropText'),
             'descriptionText' => sprintf(
-                $this->_('Cropped image will be resized to %s pixels. Click and drag the cropped area with your cursor.'),
+                $this->getText('descriptionText'),
                 '<b id="ci-cropped-width">' . $width . '</b>x<b id="ci-cropped-height">' . $height . '</b>'
             ),
             'field' => $field,
@@ -156,16 +161,16 @@ class ProcessCroppableImage3 extends Process implements Module {
             'origHeight' => $origHeight,
             'origWidth' => $origWidth,
             'pages_id' => $pages_id,
-            'showPreviewText' => $this->_("Show Preview?"),
+            'showPreviewText' => $this->getText('showPreviewText'),
             'suffix' => $suffix,
             'upscaling' => $upscaling,
             'w' => $w,
             'width' => $width,
             'x1' => $x1,
             'y1' => $y1,
-            'sharpeningText' => $this->_("Sharpen"),
+            'sharpeningText' => $this->getText('sharpeningText'),
             'sharpening' => $options['sharpening'],
-            'qualityText' => $this->_("Quality"),
+            'qualityText' => $this->getText('qualityText'),
             'quality' => $options['quality'],
             'manualSelectionAllowed' => ($this->manualSelectionAllowed ? '' : 'style="display:none"')
         ));
@@ -225,7 +230,7 @@ class ProcessCroppableImage3 extends Process implements Module {
         // validate suffix against crop-names
         $cropSettings = new CroppableImage3CropSettings($field->field->cropSetting);
         $cropSetting = $cropSettings->getCropSetting($suffix, $page->template->name);
-        if(!$cropSetting || !$cropSetting->isTemplateAllowed($page->template->name)) throw new WireException(sprintf($this->_("We have no valid Suffix (%s) or it's the wrong page-template (%s)!"), $suffix, $page->template->name));
+        if(!$cropSetting || !$cropSetting->isTemplateAllowed($page->template->name)) throw new WireException(sprintf($this->getText('noValidSuffix'), $suffix, $page->template->name));
 
         // build the targetfilename and its URL
         $basename = basename($img->basename, '.' . $img->ext) . '.-' . strtolower($suffix) . '.' . $img->ext;
@@ -296,11 +301,11 @@ class ProcessCroppableImage3 extends Process implements Module {
 #$this->error = sprintf($this->_("ImageSizer::resize(%s, %s) failed for %s.%s Click here to close the Editor!"), $targetWidth, $targetHeight, basename($targetPath), '<br />');
 
         if($this->error) {
-            $confirmCropText = sprintf($this->_('Uh! An Error has occured: %s'), $this->error);
-            $cropAgainText = $this->_('Do you want try it again?');
+            $confirmCropText = sprintf($this->getText('confirmCropTextError'), $this->error);
+            $cropAgainText = $this->getText('cropAgainTextError');
         } else {
-            $confirmCropText = $this->_('Accept!');
-            $cropAgainText = $this->_('Redo Crop');
+            $confirmCropText = $this->getText('confirmCropText');
+            $cropAgainText = $this->getText('cropAgainText');
             // keep as session & permanent storage
             $keepCoords = new CroppableImage3KeepCoords($img, $suffix, $targetWidth, $targetHeight);
             $keepCoords->write($crop['x1'], $crop['y1'], $crop['w'], $crop['h'], $quality, $sharpening);
@@ -326,7 +331,12 @@ class ProcessCroppableImage3 extends Process implements Module {
                 'sharpening' => $sharpening,
             )),
             'suffix' => $suffix,
-            'targetUrl' => $targetUrl . '?timestamp=' . time()
+            'targetUrl' => $targetUrl . '?timestamp=' . time(),
+            'imageUrl' => $img->url,
+            'width' => $targetWidth,
+            'height' => $targetHeight,
+            'sharpening' => $sharpening,
+            'quality' => $quality
         ));
 
         return $out->render();

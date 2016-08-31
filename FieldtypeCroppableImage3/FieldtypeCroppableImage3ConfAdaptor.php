@@ -2,10 +2,20 @@
 
 class FieldtypeCroppableImage3ConfAdaptor extends Wire {
 
-    const ciVersion = 99;
+    const ciVersion = '0.9.12';
 
     static protected $sharpeningValues = array('none', 'soft', 'medium', 'strong');
 
+    protected $textCollection = array();
+
+    protected function getText($key, $default = '(N/A)') {
+        if(!isset($this->textCollection['CroppableImage3TextCollectionVersion'])) {
+            require_once(dirname(__FILE__) . '/../lang/CroppableImage3TextCollection.php');
+            $c = new CroppableImage3TextCollection();
+            $this->textCollection = $c->combine($this->textCollection);
+        }
+        return isset($this->textCollection[$key]) ? $this->textCollection[$key] : $default;
+    }
 
     public function getConfig(array $data) {
 
@@ -13,28 +23,49 @@ class FieldtypeCroppableImage3ConfAdaptor extends Wire {
         if(!isset($data['useImageEngineDefaults'])) $data['useImageEngineDefaults'] = false;
         if(!isset($data['optionSharpening'])) $data['optionSharpening'] = 'soft';
         if(!isset($data['optionQuality'])) $data['optionQuality'] = 90;
+        if(!isset($data['labelTextType'])) $data['labelTextType'] = 'legacy';  // @apeisa: hope this helps to get over faster! :)
 
         require_once(dirname(__FILE__) . '/../classes/CroppableImage3Helpers.class.php');
         $modules = wire('modules');
         $form = new InputfieldWrapper();
 
         $fieldset = $modules->get('InputfieldFieldset');
+        $fieldset->label = 'Button Labeltext Type';
+        $fieldset->attr('name+id', '_button_texts');
+        $fieldset->description = $this->getText('fieldsetDescription1');
+        $fieldset->collapsed = Inputfield::collapsedNo;
+            $field = $modules->get('InputfieldSelect');
+            $field->label = $this->getText('labelTextType_Label');
+            $field->attr('name+id', 'labelTextType');
+            $selects = array(
+                'legacy'  => $this->getText('confTexttypeLegacy'),
+                'serious' => $this->getText('confTexttypeSerious'),
+                'brave'   => $this->getText('confTexttypeBrave')
+            );
+            $field->addOptions($selects);
+            $field->attr('value', $data['labelTextType']);
+            $field->description = $this->getText('labelTextType_Description');
+            $field->notes = $this->getText('labelTextType_Notes');
+            $fieldset->add($field);
+        $form->add($fieldset);
+
+        $fieldset = $modules->get('InputfieldFieldset');
         $fieldset->label = 'Quality & Sharpening';
         $fieldset->attr('name+id', '_quality_sharpening');
-        $fieldset->description = $this->_('Here you can set sitewide options for Quality and Sharpening. Per default there are selections available in the crop editor, but you can disable them here and define what should be used instead!');
+        $fieldset->description = $this->getText('fieldset_quality_sharpening_Description');
         $fieldset->collapsed = Inputfield::collapsedNo;
 
             $field = $modules->get('InputfieldCheckbox');
             $field->attr('name+id', 'manualSelectionDisabled');
-            $field->label = $this->_('Globally disable the usage of DropDown-Selects for Quality & Sharpening in the CropEditor!');
-            $field->notes = $this->_('Instead define them here or use the ImagesizerEngines default values');
+            $field->label = $this->getText('manualSelectionDisabled_Label');
+            $field->notes = $this->getText('manualSelectionDisabled_Notes');
             $field->attr('value', 1);
             $field->attr('checked', ($data['manualSelectionDisabled'] ? 'checked' : ''));
             $field->columnWidth = 65;
             $fieldset->add($field);
 
             $field = $modules->get('InputfieldSelect');
-            $field->label = $this->_('Global Setting for Sharpening');
+            $field->label = $this->getText('optionSharpening_Label');
             $field->attr('name+id', 'optionSharpening');
             if(is_numeric($data['optionSharpening']) && isset(self::$sharpeningValues[intval($data['optionSharpening'])])) {
                 $value = $data['optionSharpening'];
@@ -46,14 +77,14 @@ class FieldtypeCroppableImage3ConfAdaptor extends Wire {
             }
             $field->attr('value', intval($value));
             $field->addOptions(self::$sharpeningValues);
-            $field->description = $this->_('sharpening: none | soft | medium | strong');
+            $field->description = $this->getText('optionSharpening_Description');
             $field->columnWidth = 35;
             $field->showIf = "manualSelectionDisabled=1,useImageEngineDefaults=0";
             $fieldset->add($field);
 
             $field = $modules->get('InputfieldCheckbox');
             $field->attr('name+id', 'useImageEngineDefaults');
-            $field->label = $this->_('Use the ImagesizerEngines default values for Quality & Sharpening!');
+            $field->label = $this->getText('useImageEngineDefaults_Label');
             $field->attr('value', 1);
             $field->attr('checked', ($data['useImageEngineDefaults'] ? 'checked' : ''));
             $field->showIf = "manualSelectionDisabled=1";
@@ -71,10 +102,10 @@ class FieldtypeCroppableImage3ConfAdaptor extends Wire {
             $fieldset->add($field);
 
             $field = $modules->get('InputfieldInteger');
-            $field->label = $this->_('Global Setting for Quality');
+            $field->label = $this->getText('optionQuality_Label');
             $field->attr('name+id', 'optionQuality');
             $field->attr('value', ($data['optionQuality']>0 && $data['optionQuality']<=100 ? $data['optionQuality'] : 90));
-            $field->description = $this->_('quality: 1-100 where higher is better but bigger');
+            $field->description = $this->getText('optionQuality_Description');
             $field->columnWidth = 35;
             $field->showIf = "manualSelectionDisabled=1,useImageEngineDefaults=0";
             $fieldset->add($field);
@@ -97,14 +128,14 @@ class FieldtypeCroppableImage3ConfAdaptor extends Wire {
         }
         if($success) {
             $note = $deleteVariations ?
-                $this->_('SUCCESS! All Imagevariations are removed.') :
-                $this->_('SUCCESS! Found and listed all Pages with Imagevariations.');
+                $this->getText('dothedishes_delete_Success') :
+                $this->getText('dothedishes_noDelete_Success');
             $this->message($note);
 
         } else {
             $note = $deleteVariations ?
-                $this->_('ERROR: Removing Imagevariations was not successfully finished. Refer to the errorlog for more details.') :
-                $this->_('ERROR: Could not find and list all Pages containing Imagevariations. Refer to the errorlog for more details.');
+                $this->getText('dothedishes_delete_noSuccess') :
+                $this->getText('dothedishes_noDelete_noSuccess');
             $this->error($note);
         }
         return $note;

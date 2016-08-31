@@ -2,7 +2,7 @@
 
 if(isset($invalidFieldText) && $invalidFieldText) {
 
-    echo    "<p class='description'>{$invalidFieldText}</p>\n";
+    echo "<p class='description'>{$invalidFieldText}</p>\n";
 
 } else {
 
@@ -14,11 +14,11 @@ if(isset($invalidFieldText) && $invalidFieldText) {
         <form method="POST" action="./save/?modal=1">
 
             <div class='row'>
-                <button class="ui-button ui-widget ui-corner-all ui-state-default ui-priority-secondary" onclick='parent.caiCloseReviewWindow();'>
-                    ESC
-                </button>
                 <button type="submit" class="ui-button ui-widget ui-corner-all ui-state-default" id="cropButton">
                     <?php echo $applyCropText;?>
+                </button>
+                <button class="ui-button ui-widget ui-corner-all ui-state-default ui-priority-secondary" onclick='parent.caiCloseReviewWindow();'>
+                    ESC
                 </button>
                 <div class='clearfix'></div>
             </div>

@@ -119,7 +119,27 @@ body.modal, #content {
 #results ul, #results ul li {
     display: inline;
 }
-
+#results > table {
+    margin: 30px auto 10px auto;
+    background: #f7f7f7;
+    border: 10px solid #f7f7f7;
+/*    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);*/
+/*    border: 1px solid transparent;*/
+}
+#results > table td {
+    padding: 0 5px 0 5px;
+    margin: 0;
+    border-spacing: 3px 5px;
+    border-collapse: separate;
+    color: rgb(150,150,150);
+    font-weight: normal;
+    text-align: right;
+}
+#results > table td.value {
+    color: rgb(95,95,95) !important;
+    font-weight: bold;
+    text-align: left;
+}
 
 
 
