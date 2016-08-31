@@ -2,7 +2,7 @@
 
 ## Module for ProcessWire 3.0.20+
 
-## Version 0.9.10 Beta
+## Version 0.9.12 Beta
 
 
 ### How to install
