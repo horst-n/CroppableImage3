@@ -4,19 +4,22 @@ class ProcessCroppableImage3 extends Process implements Module {
 
     public static function getModuleInfo() {
         return array(
-            'title'    => 'Croppable Images (Process)',
-            'summary'  => 'One or more image uploads (optional predefined crops)',
-            'author'   => 'Horst Nogajski',
-            'version'  => '0.9.12',
-            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=0.9.9',
-            'icon'     => 'crop'
+            'title'       => 'Croppable Images 3 (Process)',
+            'summary'     => 'One or more image uploads (optional predefined crops)',
+            'author'      => 'Horst Nogajski',
+            'version'     => '0.9.14',
+            'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=0.9.9',
+            'permission'  => self::adminPageName,
+            'permissions' => array(self::adminPageName => 'Crop images with CroppableImage3'),
+            'icon'        => 'crop'
          );
     }
 
     /**
      * Name used for the page created in the admin
      */
-    const adminPageName = 'croppable-image';
+    const adminPageName = 'croppable-image-3';
+    const adminPagePermission = 'image-crop-3';
 
     static protected $sharpeningValues = array('none', 'soft', 'medium', 'strong');
 
@@ -44,25 +47,6 @@ class ProcessCroppableImage3 extends Process implements Module {
         $this->manualSelectionAllowed = !(bool) $globalOptions->manualSelectionDisabled;
         $this->useImageEngineDefaults = (bool) $globalOptions->useImageEngineDefaults;
     }
-
-
-
-//    static public function getCroppableImage3Options() {
-//        $defaultOptions = array(
-//            'autoRotation' => true,
-//            'upscaling' => true,
-//            'cropping' => true,
-//            'quality' => 90,
-//            'sharpening' => 'soft',
-//            'defaultGamma' => 2.2
-//        );
-//        $configOptions = wire('config')->imageSizerOptions;
-//        if(!is_array($configOptions)) $configOptions = array();
-//        $sessionOptions = wire('session')->CroppableImage3Options;
-//        if(!is_array($sessionOptions)) $sessionOptions = array();
-//        $res = array_merge($defaultOptions, $configOptions, $sessionOptions);
-//        return $res;
-//    }
 
 
 
@@ -343,13 +327,27 @@ class ProcessCroppableImage3 extends Process implements Module {
     }
 
 
+    public function ___upgrade($fromVersion, $toVersion) {
+        // testing!
+        if('0.9.14' > $fromVersion) {
+            $this->log->message($this->className() . "{$fromVersion} :: {$toVersion}");
+        }
+    }
+
 
     public function ___install() {
         parent::___install();
-        // optionally check / delete orphaned process page
-        $p = $this->pages->get(3)->children('include=hidden')->get('name=' . self::adminPageName);
-        if($p->id) $p->delete();
-        // create a new process page for croppable images
+        // optionally check / delete orphaned process page / permission from older installations
+            // check for older versions
+            $p = $this->pages->get(3)->children('include=hidden')->get('name=croppable-image');
+            if($p->id) $p->delete();
+            $p = $this->permissions->get('image-crop');
+            if($p->id > 0) $p->delete();
+            // check for newer versions
+            $p = $this->pages->get(3)->children('include=hidden')->get('name=' . self::adminPageName);
+            if($p->id) $p->delete();
+
+        // create a new process page for croppable images 3
         $p = new Page();
         $p->template = $this->templates->get('admin');
         $p->parent = $this->pages->get(3);  // /admin/pages
@@ -367,10 +365,8 @@ class ProcessCroppableImage3 extends Process implements Module {
         // $moduleID = $this->modules->getModuleID($this);
         // $page = $this->pages->get("template=admin, process=$moduleID, name=" . self::adminPageName);
 
+        // remove ProcessPage
         $p = $this->pages->get(3)->children('include=hidden')->get('name=' . self::adminPageName);
-        if($p->id) $p->delete();
-
-        $p = $this->permissions->get('image-crop');
         if($p->id) $p->delete();
     }
 
