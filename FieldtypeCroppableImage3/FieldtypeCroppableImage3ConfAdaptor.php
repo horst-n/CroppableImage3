@@ -2,7 +2,7 @@
 
 class FieldtypeCroppableImage3ConfAdaptor extends Wire {
 
-    const ciVersion = '0.9.14';
+    const ciVersion = '0.9.15';
 
     static protected $sharpeningValues = array('none', 'soft', 'medium', 'strong');
 

@@ -7,7 +7,7 @@ class ProcessCroppableImage3 extends Process implements Module {
             'title'       => 'Croppable Images 3 (Process)',
             'summary'     => 'One or more image uploads (optional predefined crops)',
             'author'      => 'Horst Nogajski',
-            'version'     => '0.9.14',
+            'version'     => '0.9.15',
             'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=0.9.9',
             'permission'  => self::adminPageName,
             'permissions' => array(self::adminPageName => 'Crop images with CroppableImage3'),
@@ -81,7 +81,7 @@ class ProcessCroppableImage3 extends Process implements Module {
         }
 
         $page = $this->pages->get($pages_id);
-        if(0 == $page->id) throw new WireException(__('Invalid Page-ID'));
+        if(0 == $page->id) throw new WireException($this->getText('invalidPageID'));
 
         $editable = $page instanceof RepeaterPage ? $page->getForPage()->editable() : $page->editable();
         if(!$editable) throw new WirePermissionException('Not Editable');
@@ -282,7 +282,7 @@ class ProcessCroppableImage3 extends Process implements Module {
 
 // To fake a failed ImageSizer manipulation during development, uncomment the next line,
 // this enables to workout the styling for Errormessages in the ReviewScreen!
-#$this->error = sprintf($this->_("ImageSizer::resize(%s, %s) failed for %s.%s Click here to close the Editor!"), $targetWidth, $targetHeight, basename($targetPath), '<br />');
+#$this->error = sprintf($this->getText('imageSizerResizeFailed'), $targetWidth, $targetHeight, basename($targetPath), '<br />');
 
         if($this->error) {
             $confirmCropText = sprintf($this->getText('confirmCropTextError'), $this->error);

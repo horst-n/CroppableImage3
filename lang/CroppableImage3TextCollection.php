@@ -44,7 +44,7 @@ class CroppableImage3TextCollection extends WireData {
         $this->textCollection = array(
 
          // identify key
-            'CroppableImage3TextCollectionVersion' => '0.0.1',
+            'CroppableImage3TextCollectionVersion' => '0.0.2',
 
          // FieldtypeCroppableImage3
             'cropSettings_invalidLine' => $this->_("Crop Settings: This line is not a valid crop setting: '%s'"),
@@ -75,6 +75,8 @@ class CroppableImage3TextCollection extends WireData {
             'showPreviewText' => $this->_('Show Preview?'),
             'invalidFieldText' => $this->_('This page only works when you come from image field.'),
             'noValidSuffix' => $this->_("We have no valid Suffix (%s) or it's the wrong page-template (%s)!"),
+            'invalidPageID' => $this->_('Invalid Page-ID'),
+            'imageSizerResizeFailed' => $this->_('ImageSizer::resize(%s, %s) failed for %s.%s Click here to close the Editor!'),
 
          // FieldtypeCroppableImage3ConfAdaptor
             'fieldsetDescription1' => $this->_('Here you can select which type of Buttontexts you prefer'),
