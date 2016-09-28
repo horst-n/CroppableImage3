@@ -7,10 +7,10 @@ class ProcessCroppableImage3 extends Process implements Module {
             'title'       => 'Croppable Images 3 (Process)',
             'summary'     => 'One or more image uploads (optional predefined crops)',
             'author'      => 'Horst Nogajski',
-            'version'     => '0.9.15',
+            'version'     => '0.9.16',
             'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=0.9.9',
-            'permission'  => self::adminPageName,
-            'permissions' => array(self::adminPageName => 'Crop images with CroppableImage3'),
+            'permission'  => self::adminPagePermission,
+            'permissions' => array(self::adminPagePermission => 'Crop images with CroppableImage3'),
             'icon'        => 'crop'
          );
     }
@@ -19,7 +19,7 @@ class ProcessCroppableImage3 extends Process implements Module {
      * Name used for the page created in the admin
      */
     const adminPageName = 'croppable-image-3';
-    const adminPagePermission = 'image-crop-3';
+    const adminPagePermission = self::adminPageName;
 
     static protected $sharpeningValues = array('none', 'soft', 'medium', 'strong');
 
