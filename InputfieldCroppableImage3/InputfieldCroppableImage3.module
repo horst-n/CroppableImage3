@@ -8,8 +8,8 @@ class InputfieldCroppableImage3 extends InputfieldImage {
             'title'    => 'Croppable Image 3 (Inputfield)',
 			'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '0.9.16',
-            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=0.9.9',
+            'version'  => '0.9.17',
+            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=0.9.17',
             'icon'     => 'crop'
  		);
 	}

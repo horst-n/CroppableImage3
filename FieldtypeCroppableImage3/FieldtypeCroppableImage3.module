@@ -3,17 +3,17 @@
 
 class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableModule {
 
-	public static function getModuleInfo() {
-		return array(
-			'title'    => 'Croppable Image 3 (Fieldtype)',
-			'summary'  => 'Field that stores one or more GIF, JPG, or PNG images and support optional predefined crop functionality',
+    public static function getModuleInfo() {
+        return array(
+            'title'    => 'Croppable Image 3 (Fieldtype)',
+            'summary'  => 'Field that stores one or more GIF, JPG, or PNG images and support optional predefined crop functionality',
             'author'   => 'Horst Nogajski',
-            'version'  => '0.9.16',
+            'version'  => '0.9.17',
             'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8',  // , FieldtypeRangeSlider
             'installs' => 'InputfieldCroppableImage3, ProcessCroppableImage3',
             'icon'     => 'crop'
-		);
-	}
+        );
+    }
 
     protected $textCollection = array();
 
@@ -28,7 +28,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
 
     public function __construct() {
         parent::__construct();
-        $this->defaultInputfieldClass = 'InputfieldCroppableImage3';
+        $this->defaultInputfieldClass = 'InputfieldCroppableImage3'; // FieldtypeFile
         require_once(dirname(__FILE__) . '/../classes/CroppableImage3KeepCoords.class.php');
         require_once(dirname(__FILE__) . '/../classes/CroppableImage3Helpers.class.php');
         require_once(dirname(__FILE__) . '/../classes/CroppableImage3CropSettings.class.php');
@@ -77,7 +77,8 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
      * @return bool
      */
     public function getCropSettings(HookEvent $event) {
-        $inputFieldInstance = $this->_getInputFieldInstance($event);
+        #$inputFieldInstance = $this->_getInputFieldInstance($event);
+        $inputFieldInstance = $event->object->field;
         $cropSettings = new CroppableImage3CropSettings($inputFieldInstance->cropSetting);
         $sets = $cropSettings->getCropSettingsForTemplate($event->object->page->template);
         $event->return = $sets;
@@ -187,9 +188,11 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         $intermediate = $second ? true : false;
 
         // return InputfieldCroppableImage3 or null if not found
-        $inputFieldInstance = $this->_getInputFieldInstance($event);
+        #$inputFieldInstance = $this->_getInputFieldInstance($event);
+        $inputFieldInstance = $event->object->field;
 
-        if (!$inputFieldInstance) return true;
+
+        if(!$inputFieldInstance) return true;
 
         // and we continue...
 
