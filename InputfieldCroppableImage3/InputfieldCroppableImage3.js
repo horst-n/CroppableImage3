@@ -16,8 +16,6 @@ $(function () {
      */
     croppableTooltip = function ($elements) {
 
-        console.log('start croppableTooltip');
-
             if ($elements === undefined) {
                 $elements = $('.InputfieldImage .cropLinks a');
             }
