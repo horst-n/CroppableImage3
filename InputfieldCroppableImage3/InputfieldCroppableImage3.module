@@ -3,16 +3,16 @@
 
 class InputfieldCroppableImage3 extends InputfieldImage {
 
-	public static function getModuleInfo() {
-		return array(
+    public static function getModuleInfo() {
+        return array(
             'title'    => 'Croppable Image 3 (Inputfield)',
-			'summary'  => 'One or more image uploads (optional predefined crops)',
+            'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '0.9.17',
+            'version'  => 100,
             'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=0.9.17',
             'icon'     => 'crop'
- 		);
-	}
+        );
+    }
 
     protected $textCollection = array();
 
@@ -31,8 +31,8 @@ class InputfieldCroppableImage3 extends InputfieldImage {
         require_once(dirname(__FILE__) . '/../classes/CroppableImage3Helpers.class.php');
     }
 
-	public function init() {
-		parent::init();
+    public function init() {
+        parent::init();
         // default settings
         $this->set('cropSetting', '');
         // we definetly need this to be displayed, as it contains the cropLinks !!
@@ -40,7 +40,7 @@ class InputfieldCroppableImage3 extends InputfieldImage {
         $this->labels = array_merge($this->labels, array(
             'caiName' => 'Name'
         ));
-	}
+    }
 
     public function renderReady(Inputfield $parent = null, $renderValueMode = false) {
         $this->wire('modules')->loadModuleFileAssets('InputfieldImage');
@@ -53,15 +53,15 @@ class InputfieldCroppableImage3 extends InputfieldImage {
 //        return $out;
 //    }
 
-	protected function ___renderButtons($pagefile, $id, $n) {
+    protected function ___renderButtons($pagefile, $id, $n) {
         $out = parent::___renderButtons($pagefile, $id, $n);
         $cropLinks = $this->getCropLinks($pagefile);
         if($cropLinks) {
             $out = "<div class='croppableImageButtons'><p>" . $this->getText('predefinedCrops') . "</p>" .
                     $cropLinks . "</div>" . $out;
         }
-		return $out;
-	}
+        return $out;
+    }
 
     /**
      * Returns the croplinks HTML string or boolean false. Depending on field
