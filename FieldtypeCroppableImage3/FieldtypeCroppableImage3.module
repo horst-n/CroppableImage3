@@ -6,11 +6,11 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
     public static function getModuleInfo() {
         return array(
             'title'    => 'Croppable Image 3 (Fieldtype)',
-            'summary'  => 'Field that stores one or more GIF, JPG, or PNG images and support optional predefined crop functionality',
+            'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => 100,
-            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8',  // , FieldtypeRangeSlider
-            'installs' => 'InputfieldCroppableImage3, ProcessCroppableImage3',
+            'version'  => '1.1.0',
+            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, CroppableImage3',  // , FieldtypeRangeSlider
+            #'installs' => 'InputfieldCroppableImage3, ProcessCroppableImage3',
             'icon'     => 'crop'
         );
     }
