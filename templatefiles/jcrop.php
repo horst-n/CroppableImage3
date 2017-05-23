@@ -1,4 +1,4 @@
-<?php namespace ProcessWire;
+<?php
 
 if(isset($invalidFieldText) && $invalidFieldText) {
 

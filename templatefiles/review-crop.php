@@ -1,4 +1,3 @@
-<?php namespace ProcessWire; ?>
 
 <div id='results'>
     <img src='<?php echo $targetUrl ?>' alt='Cropped image' />
