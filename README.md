@@ -1,22 +1,21 @@
-﻿# Croppable Image 3
+# Croppable Image 2
 
-## Module for ProcessWire 3.0.20+
+## Module for legacy ProcessWire Version >= 2.8.20 and < 3.0
 
-## Version 1.1.0 Beta
+## Version 1.1.1 Beta
 
 
 ### How to install
 
-Just add the folder __CroppableImage3__ including all of its subfolders and files to your site/modules/ folder. After that go to the modules section in the PW-admin and refresh the list of available modules. You should see four new modules:
+Just add the folder __CroppableImage2__ including all of its subfolders and files to your site/modules/ folder. After that go to the modules section in the PW-admin and refresh the list of available modules. You should see four new modules:
 
-* *CroppableImage3*
-* *Fieldtype*CroppableImage3
-* *Inputfield*CroppableImage3
-* *Process*CroppableImage3
+* *Fieldtype*CroppableImage2
+* *Inputfield*CroppableImage2
+* *Process*CroppableImage2
 
-Use __*CroppableImage3*__ (without prefix) to install all at once.
+Use __*FieldtypeCroppableImage2*__ to install all at once!
 
-After that create a new field and make it use the fieldtype ``CroppableImage3``.
+After that create a new field and make it use the fieldtype ``CroppableImage2``.
 
 With this field you are able to define Cropsettings, but you don't have to. You also can use it like the core Imagefield and just benefit from some enhancements other than the crop-functionality.
 
@@ -44,7 +43,7 @@ squarethumb,250,250,home,sidebar
 
 ### Usage in templates
 
-``FieldtypeCroppableImage3`` adds a ``getCrop``-method to ``Pageimage``. ``getCrop`` returns the ``Pageimage`` instance of the crop you have asked for, ie:
+``FieldtypeCroppableImage2`` adds a ``getCrop``-method to ``Pageimage``. ``getCrop`` returns the ``Pageimage`` instance of the crop you have asked for, ie:
 
 ```php
 // get the first image instance of crop setting 'portrait'
@@ -71,7 +70,7 @@ If you haven't cropped that image yet (via the cropping tool), a default croppin
 
 ### Credits
 
-#### Current Version (PW 3.0.20+) developed by
+#### Current Version (PW 3.0.20+ and PW 2.8.20+) developed by
 * Horst Nogajski (@horst-n)
 * Sponsored by http://dreikon.de/ (many thanks Niko & Timo)
 

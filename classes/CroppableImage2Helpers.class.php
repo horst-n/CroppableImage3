@@ -1,12 +1,12 @@
-<?php namespace ProcessWire;
+<?php
 
 
-class CroppableImage3Helpers extends WireData {
+class CroppableImage2Helpers extends WireData {
 
 
     const ciVersion = 99;
 
-    const ciGlobalConfigName = 'FieldtypeCroppableImage3';
+    const ciGlobalConfigName = 'FieldtypeCroppableImage2';
 
 
     /**
@@ -157,15 +157,15 @@ class CroppableImage3Helpers extends WireData {
 
 
     /**
-     * easy access to the ImageOptions of CroppableImage3,
+     * easy access to the ImageOptions of CroppableImage2,
      *
      * @return array
      */
     static public function getGlobalImageSettings($asArray = false) {
         $o = wire('modules')->get(self::ciGlobalConfigName);
-        $options = $o->getCroppableImage3Options();
+        $options = $o->getCroppableImage2Options();
         if(!is_array($options)) {
-            throw new WireException(__('Unable to get CroppableImage3Options!'));
+            throw new WireException(__('Unable to get CroppableImage2Options!'));
         }
         return true === $asArray ? $options : self::arrayToObject($options);
     }
@@ -173,7 +173,7 @@ class CroppableImage3Helpers extends WireData {
 
 
     /**
-     * easy access to the ImageOptions of CroppableImage3,
+     * easy access to the ImageOptions of CroppableImage2,
      *
      * @return array
      */
@@ -186,8 +186,8 @@ class CroppableImage3Helpers extends WireData {
 
 
     /**
-     * easy access to the global settings of CroppableImage3,
-     * stored in the Modules-Configpage of InputfieldCroppableImage3
+     * easy access to the global settings of CroppableImage2,
+     * stored in the Modules-Configpage of InputfieldCroppableImage2
      *
      * @param  bool $asArray    optional, default is false, if set to true returns an array, otherwise an object
      * @return object | array   with properties|arraykeys named like config-keys
@@ -204,8 +204,8 @@ class CroppableImage3Helpers extends WireData {
 
 
     /**
-     * easy access to the global settings of CroppableImage3,
-     * stored in the Modules-Configpage of InputfieldCroppableImage3
+     * easy access to the global settings of CroppableImage2,
+     * stored in the Modules-Configpage of InputfieldCroppableImage2
      *
      * @param  bool $asArray    optional, default is false, if set to true returns an array, otherwise an object
      * @return object | array   with properties|arraykeys named like config-keys
@@ -219,8 +219,8 @@ class CroppableImage3Helpers extends WireData {
 
 
     /**
-     * easy access to the global settings of CroppableImage3,
-     * stored in the Modules-Configpage of InputfieldCroppableImage3
+     * easy access to the global settings of CroppableImage2,
+     * stored in the Modules-Configpage of InputfieldCroppableImage2
      *
      * @param  object or array $newPartialSettings  hold key/value pairs of settings that should be stored
      * @return result of save action
@@ -326,7 +326,7 @@ class CroppableImage3Helpers extends WireData {
 
 
     static public function arrayToObject($a) {
-        $o = new \stdClass();
+        $o = new stdClass();
         foreach($a as $k => $v) $o->$k = $v;
         return $o;
     }

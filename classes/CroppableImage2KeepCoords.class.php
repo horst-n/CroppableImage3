@@ -1,4 +1,4 @@
-<?php namespace ProcessWire;
+<?php
 
 /**
 * We use this wrapper class with a read and a write method to be able to store
@@ -7,7 +7,7 @@
 * It is stored as metadata in an IPTC custom field of the original imagefile :)
 */
 
-class CroppableImage3KeepCoords extends WireData {
+class CroppableImage2KeepCoords extends WireData {
 
 
     const ciVersion = 99;
@@ -24,7 +24,7 @@ class CroppableImage3KeepCoords extends WireData {
 
     // !! $pageimage needs to be ALWAYS the original image, not a variation !!
     public function __construct($pageimage = null, $suffix = null, $cropW = null, $cropH = null, $permanentStorage = true) {
-        $this->sessArrayName = str_replace(__NAMESPACE__ . '\\', '', __CLASS__);
+        $this->sessArrayName = __CLASS__;
         if(!$pageimage) return;
         if(!$suffix || !$cropW || !$cropH) return;
         $this->id = $suffix . md5($pageimage->url);

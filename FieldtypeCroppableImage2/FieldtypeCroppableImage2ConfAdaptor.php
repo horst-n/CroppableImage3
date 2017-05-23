@@ -1,6 +1,6 @@
-<?php namespace ProcessWire;
+<?php
 
-class FieldtypeCroppableImage3ConfAdaptor extends Wire {
+class FieldtypeCroppableImage2ConfAdaptor extends Wire {
 
     const ciVersion = '0.9.15';
 
@@ -9,9 +9,9 @@ class FieldtypeCroppableImage3ConfAdaptor extends Wire {
     protected $textCollection = array();
 
     protected function getText($key, $default = '(N/A)') {
-        if(!isset($this->textCollection['CroppableImage3TextCollectionVersion'])) {
-            require_once(dirname(__FILE__) . '/../lang/CroppableImage3TextCollection.php');
-            $c = new CroppableImage3TextCollection();
+        if(!isset($this->textCollection['CroppableImage2TextCollectionVersion'])) {
+            require_once(dirname(__FILE__) . '/../lang/CroppableImage2TextCollection.php');
+            $c = new CroppableImage2TextCollection();
             $this->textCollection = $c->combine($this->textCollection);
         }
         return isset($this->textCollection[$key]) ? $this->textCollection[$key] : $default;
@@ -25,7 +25,7 @@ class FieldtypeCroppableImage3ConfAdaptor extends Wire {
         if(!isset($data['optionQuality'])) $data['optionQuality'] = 90;
         if(!isset($data['labelTextType'])) $data['labelTextType'] = 'legacy';  // @apeisa: hope this helps to get over faster! :)
 
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3Helpers.class.php');
+        require_once(dirname(__FILE__) . '/../classes/CroppableImage2Helpers.class.php');
         $modules = wire('modules');
         $form = new InputfieldWrapper();
 
@@ -178,36 +178,30 @@ class FieldtypeCroppableImage3ConfAdaptor extends Wire {
 
 }
 
-if(!class_exists('ProcessWire\\filo')) {
+if(!class_exists('filo')) {
     /** @shortdesc: Stack, First In - Last Out  **/
     class filo {
 
-        /** @private **/
-        var $elements;
-        /** @private **/
-        var $debug;
+        protected $elements;
+        protected $debug;
 
-        /** @private **/
-        function filo($debug=false) {
+        public function __constructor($debug=false) {
             $this->debug = $debug;
             $this->zero();
         }
 
-        /** @private **/
-        function push($elm) {
+        public function push($elm) {
             array_push($this->elements, $elm);
             if($this->debug) echo "<p>filo->push(".$elm.")</p>";
         }
 
-        /** @private **/
-        function pop() {
+        public function pop() {
             $ret = array_pop( $this->elements );
             if($this->debug) echo "<p>filo->pop() = $ret</p>";
             return $ret;
         }
 
-        /** @private **/
-        function zero() {
+        public function zero() {
             $this->elements = array();
             if($this->debug) echo "<p>filo->zero()</p>";
         }

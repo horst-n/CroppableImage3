@@ -1,15 +1,15 @@
-<?php namespace ProcessWire;
+<?php
 
 
-class InputfieldCroppableImage3 extends InputfieldImage {
+class InputfieldCroppableImage2 extends InputfieldImage {
 
     public static function getModuleInfo() {
         return array(
-            'title'    => 'Croppable Image 3 (Inputfield)',
+            'title'    => 'Croppable Image 2 (Inputfield)',
             'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '1.1.0',
-            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, CroppableImage3>=1.1.0, FieldtypeCroppableImage3>=1.1.0',
+            'version'  => '1.1.1',
+            'requires' => 'ProcessWire>=2.8.20, PHP>=5.3.8, FieldtypeCroppableImage2>=1.1.1',
             'icon'     => 'crop'
         );
     }
@@ -17,9 +17,9 @@ class InputfieldCroppableImage3 extends InputfieldImage {
     protected $textCollection = array();
 
     protected function getText($key, $default = '(N/A)') {
-        if(!isset($this->textCollection['CroppableImage3TextCollectionVersion'])) {
-            require_once(__DIR__ . '/../lang/CroppableImage3TextCollection.php');
-            $c = new CroppableImage3TextCollection();
+        if(!isset($this->textCollection['CroppableImage2TextCollectionVersion'])) {
+            require_once(__DIR__ . '/../lang/CroppableImage2TextCollection.php');
+            $c = new CroppableImage2TextCollection();
             $this->textCollection = $c->combine($this->textCollection);
         }
         return isset($this->textCollection[$key]) ? $this->textCollection[$key] : $default;
@@ -27,8 +27,8 @@ class InputfieldCroppableImage3 extends InputfieldImage {
 
     public function __construct() {
         parent::__construct();
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3CropSettings.class.php');
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3Helpers.class.php');
+        require_once(dirname(__FILE__) . '/../classes/CroppableImage2CropSettings.class.php');
+        require_once(dirname(__FILE__) . '/../classes/CroppableImage2Helpers.class.php');
     }
 
     public function init() {
@@ -73,13 +73,13 @@ class InputfieldCroppableImage3 extends InputfieldImage {
      */
     private function getCropLinks($pagefile) {
 
-        $cropSettings = new CroppableImage3CropSettings($this->cropSetting);
+        $cropSettings = new CroppableImage2CropSettings($this->cropSetting);
 
         // no crops, no glory
         if(!count($cropSettings->items)) return false;
 
-        $baseCropUrl = $this->config->urls->admin . "page/" . ProcessCroppableImage3::adminPageName . "/";
-        $upscaling = CroppableImage3Helpers::getGlobalImageSetting('upscaling');  // setting 1x holen reicht :)
+        $baseCropUrl = $this->config->urls->admin . "page/" . ProcessCroppableImage2::adminPageName . "/";
+        $upscaling = CroppableImage2Helpers::getGlobalImageSetting('upscaling');  // setting 1x holen reicht :)
         $templateName = $pagefile->page->template->name;
         $imageWidth = $pagefile->width;
         $imageHeight = $pagefile->height;
@@ -146,7 +146,7 @@ class InputfieldCroppableImage3 extends InputfieldImage {
                 'height' => $cropSetting->height,
             );
 
-            $out .= "<a href='$cropUrlWithParams' " . CroppableImage3Helpers::arrayToHtmlAttr($attr) . ">";
+            $out .= "<a href='$cropUrlWithParams' " . CroppableImage2Helpers::arrayToHtmlAttr($attr) . ">";
             $out .= "<i class='fa "  . ($warning ? 'fa-exclamation-circle' : 'fa-crop') . "'></i> ";
             $out .= "<span>";
             $out .= $cropSetting->name;
@@ -166,7 +166,7 @@ class InputfieldCroppableImage3 extends InputfieldImage {
 //            'y' => $adminThumb['attr']['data-grid-y'],
 //        );
 
-        $this->config->js('CroppableImage3', $jsCropInfo);
+        $this->config->js('CroppableImage2', $jsCropInfo);
 
         return $out ? "<div class='cropLinks'>{$out}</div>" : false;
     }

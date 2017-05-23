@@ -1,6 +1,6 @@
-<?php namespace ProcessWire;
+<?php
 
-class CroppableImage3CropSetting {  //extends WireData {
+class CroppableImage2CropSetting {  //extends WireData {
 
 
     const ciVersion = 99;
@@ -21,9 +21,9 @@ class CroppableImage3CropSetting {  //extends WireData {
 
 
     /**
-     * create a CroppableImage3CropSetting instance from a crop setting line
+     * create a CroppableImage2CropSetting instance from a crop setting line
      * @param  string $cropSettingLine       example: crop-name,200,200,basic-page
-     * @return CroppableImage3CropSetting
+     * @return CroppableImage2CropSetting
      */
     public static function createFromString($cropSettingLine) {
 
@@ -41,7 +41,7 @@ class CroppableImage3CropSetting {  //extends WireData {
             $allowedTemplates[$key] = trim($templateName);
         }
 
-        $cropSetting = new CroppableImage3CropSetting(
+        $cropSetting = new CroppableImage2CropSetting(
             $name = trim($cropSettingArr[0]),
             $width = (int) trim($cropSettingArr[1]),
             $height = (int) trim($cropSettingArr[2]),
@@ -86,7 +86,7 @@ class CroppableImage3CropSetting {  //extends WireData {
 
 
 
-class CroppableImage3CropSettings {
+class CroppableImage2CropSettings {
 
     public $items = array();
     public $names = array();
@@ -106,16 +106,16 @@ class CroppableImage3CropSettings {
 
 
     /**
-     * add an item either via string or CroppableImage3CropSetting instance
-     * @param string|CroppableImage3CropSetting $setting
+     * add an item either via string or CroppableImage2CropSetting instance
+     * @param string|CroppableImage2CropSetting $setting
      */
     public function addItem($setting) {
-        if ($setting instanceof CroppableImage3CropSetting) {
+        if ($setting instanceof CroppableImage2CropSetting) {
             $this->items[$setting->name] = $setting;
             $this->names[$setting->name] = $setting->name;
         } else if (trim((string) $setting)) {
-            if (CroppableImage3CropSetting::isValidString($setting)) {
-                $cropSetting = CroppableImage3CropSetting::createFromString($setting);
+            if (CroppableImage2CropSetting::isValidString($setting)) {
+                $cropSetting = CroppableImage2CropSetting::createFromString($setting);
                 if (!in_array($cropSetting->name, $this->names)) {
                     $this->items[$cropSetting->name] = $cropSetting;
                     $this->names[$cropSetting->name] = $cropSetting->name;
@@ -134,13 +134,13 @@ class CroppableImage3CropSettings {
     /**
      * get all crop settings for a specific template
      * @param  string|object(Template) $templateName
-     * @return Boolean|CroppableImage3CropSettings   either false if no setting is found for template
-     *                                              or a CroppableImage3CropSettings instance with the matching items
+     * @return Boolean|CroppableImage2CropSettings   either false if no setting is found for template
+     *                                              or a CroppableImage2CropSettings instance with the matching items
      */
     public function getCropSettingsForTemplate($templateName=null) {
 
         $templateName = (bool) ($templateName instanceof Template) ? $templateName->name : $templateName;
-        $cropSettings = new CroppableImage3CropSettings();
+        $cropSettings = new CroppableImage2CropSettings();
 
         foreach($this->items as $cropSetting) {
             if ($cropSetting->isTemplateAllowed($templateName)) {
@@ -156,7 +156,7 @@ class CroppableImage3CropSettings {
      * get the crop setting by name and for a specific template
      * @param  string $cropSettingName
      * @param  string|object(Template) $templateName
-     * @return Boolean|CroppableImage3CropSetting    either false if no setting is found by that name and for template
+     * @return Boolean|CroppableImage2CropSetting    either false if no setting is found by that name and for template
      *                                              or the crop setting itself
      */
     public function getCropSetting($cropSettingName, $templateName=null) {

@@ -1,5 +1,5 @@
 /**
- * InputfieldCroppableImage3  - v 0.9.9
+ * InputfieldCroppableImage2  - v 0.9.9
  *
  */
 
@@ -35,7 +35,7 @@ $(function () {
                 content: function() {
                     var $link = $(this),
                         suffix = $link.data('suffix'),
-                        json = config.CroppableImage3.crops[suffix];
+                        json = config.CroppableImage2.crops[suffix];
 
                     // return content
                     if($link.data('croppable')) {

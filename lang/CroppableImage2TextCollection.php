@@ -1,6 +1,6 @@
-<?php namespace ProcessWire;
+<?php
 
-class CroppableImage3TextCollection extends WireData {
+class CroppableImage2TextCollection extends WireData {
 
     protected $textCollection = array();
 
@@ -10,8 +10,8 @@ class CroppableImage3TextCollection extends WireData {
 
     public function __construct() {
 
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3Helpers.class.php');
-        $globalOptions = CroppableImage3Helpers::arrayToObject(CroppableImage3Helpers::getGlobalConfigSettings(true));
+        require_once(dirname(__FILE__) . '/../classes/CroppableImage2Helpers.class.php');
+        $globalOptions = CroppableImage2Helpers::arrayToObject(CroppableImage2Helpers::getGlobalConfigSettings(true));
         $labelTextType = isset($globalOptions->labelTextType) ? $globalOptions->labelTextType : 'legacy';
 
         $subCollection = array(
@@ -44,9 +44,9 @@ class CroppableImage3TextCollection extends WireData {
         $this->textCollection = array(
 
          // identify key
-            'CroppableImage3TextCollectionVersion' => '0.0.2',
+            'CroppableImage2TextCollectionVersion' => '0.0.2',
 
-         // FieldtypeCroppableImage3
+         // FieldtypeCroppableImage2
             'cropSettings_invalidLine' => $this->_("Crop Settings: This line is not a valid crop setting: '%s'"),
             'cropSettings_invalidTemplates' => $this->_("Crop Settings: The following templates have not been found: '%s'"),
             'cropSettings_mustbeunique' => $this->_("Crop setting names must be unique, '%s' is already defined: '%s'"),
@@ -54,7 +54,7 @@ class CroppableImage3TextCollection extends WireData {
             'cropSettings_NoSetting4Template' => $this->_("There is no crop setting for the template '%s' called '%s'"),
             'cropSettings_widthHeightNotFound' => $this->_("Width and height not found for crop setting '%s'"),
 
-         // InputfieldCroppableImage3
+         // InputfieldCroppableImage2
             'predefinedCrops' => $this->_('predefined Crops'),
             'cropSetting_toLarge' => $this->_('This crop setting (%s) is larger than the source image (%s) and upscaling is not allowed.'),
             'jsCropInfo_edit' => $this->_('edit'),
@@ -62,7 +62,7 @@ class CroppableImage3TextCollection extends WireData {
             'fieldCropSetting_Label' => $this->_('Crop Settings'),
             'fieldCropSetting_Description' => $this->_('Enter all crop dimensions, one on each line in this format: name,width,height. Few examples: "landscape,900,600" or "portrait,200,600". Optionally, you can bind a cropsetting to only explicitly named templates by giving the templatename(s) as last parameter(s). Examples: "panorama,1200,600,home" or "square,300,300,basic-page,home"'),
 
-         // ProcessCroppableImage3
+         // ProcessCroppableImage2
             'confirmCropText' => $subCollection[$labelTextType]['confirmCropText'],
             'confirmCropTextError' => $subCollection[$labelTextType]['confirmCropTextError'],
             'cropAgainText' => $subCollection[$labelTextType]['cropAgainText'],
@@ -78,7 +78,7 @@ class CroppableImage3TextCollection extends WireData {
             'invalidPageID' => $this->_('Invalid Page-ID'),
             'imageSizerResizeFailed' => $this->_('ImageSizer::resize(%s, %s) failed for %s.%s Click here to close the Editor!'),
 
-         // FieldtypeCroppableImage3ConfAdaptor
+         // FieldtypeCroppableImage2ConfAdaptor
             'fieldsetDescription1' => $this->_('Here you can select which type of Buttontexts you prefer'),
             'labelTextType_Description' => $this->_('Buttontext Style: legacy & funny | serious & boring | brave & unknown'),
             'labelTextType_Label' => $this->_('Buttontext Style'),

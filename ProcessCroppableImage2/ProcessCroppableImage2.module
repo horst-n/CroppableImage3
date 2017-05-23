@@ -1,16 +1,16 @@
-<?php namespace ProcessWire;
+<?php
 
-class ProcessCroppableImage3 extends Process implements Module {
+class ProcessCroppableImage2 extends Process implements Module {
 
     public static function getModuleInfo() {
         return array(
-            'title'       => 'Croppable Images 3 (Process)',
+            'title'       => 'Croppable Image 2 (Process)',
             'summary'     => 'One or more image uploads (optional predefined crops)',
             'author'      => 'Horst Nogajski',
-            'version'     => '1.1.0',
-            'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, CroppableImage3>=1.1.0, FieldtypeCroppableImage3>=1.1.0',
+            'version'     => '1.1.1',
+            'requires'    => 'ProcessWire>=2.8.20, PHP>=5.3.8, FieldtypeCroppableImage2>=1.1.1',
             'permission'  => self::adminPagePermission,
-            'permissions' => array(self::adminPagePermission => 'Crop images with CroppableImage3'),
+            'permissions' => array(self::adminPagePermission => 'Crop images with CroppableImage2'),
             'icon'        => 'crop'
          );
     }
@@ -18,7 +18,7 @@ class ProcessCroppableImage3 extends Process implements Module {
     /**
      * Name used for the page created in the admin
      */
-    const adminPageName = 'croppable-image-3';
+    const adminPageName = 'croppable-image-2';
     const adminPagePermission = self::adminPageName;
 
     static protected $sharpeningValues = array('none', 'soft', 'medium', 'strong');
@@ -26,24 +26,24 @@ class ProcessCroppableImage3 extends Process implements Module {
     protected $textCollection = array();
 
     protected function getText($key, $default = '(N/A)') {
-        if(!isset($this->textCollection['CroppableImage3TextCollectionVersion'])) {
-            require_once(__DIR__ . '/../lang/CroppableImage3TextCollection.php');
-            $c = new CroppableImage3TextCollection();
+        if(!isset($this->textCollection['CroppableImage2TextCollectionVersion'])) {
+            require_once(__DIR__ . '/../lang/CroppableImage2TextCollection.php');
+            $c = new CroppableImage2TextCollection();
             $this->textCollection = $c->combine($this->textCollection);
         }
         return isset($this->textCollection[$key]) ? $this->textCollection[$key] : $default;
     }
 
     public function __construct() {
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3KeepCoords.class.php');
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3Helpers.class.php');
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3CropSettings.class.php');
+        require_once(dirname(__FILE__) . '/../classes/CroppableImage2KeepCoords.class.php');
+        require_once(dirname(__FILE__) . '/../classes/CroppableImage2Helpers.class.php');
+        require_once(dirname(__FILE__) . '/../classes/CroppableImage2CropSettings.class.php');
     }
 
 
 
     public function init() {
-        $this->globalOptions = $globalOptions = CroppableImage3Helpers::arrayToObject(CroppableImage3Helpers::getGlobalConfigSettings(true));
+        $this->globalOptions = $globalOptions = CroppableImage2Helpers::arrayToObject(CroppableImage2Helpers::getGlobalConfigSettings(true));
         $this->manualSelectionAllowed = !(bool) $globalOptions->manualSelectionDisabled;
         $this->useImageEngineDefaults = (bool) $globalOptions->useImageEngineDefaults;
     }
@@ -52,10 +52,10 @@ class ProcessCroppableImage3 extends Process implements Module {
 
     public function ___execute() {
 
-        $this->config->scripts->add($this->config->urls->ProcessCroppableImage3 . "scripts/ProcessCroppableImage3.js");
-        $this->config->styles->add($this->config->urls->ProcessCroppableImage3 . "styles/ProcessCroppableImage3.css");
-        $this->config->scripts->add($this->config->urls->ProcessCroppableImage3 . "scripts/Jcrop/js/jquery.Jcrop.min.js");
-        $this->config->styles->add($this->config->urls->ProcessCroppableImage3 . "scripts/Jcrop/css/jquery.Jcrop.css");
+        $this->config->scripts->add($this->config->urls->ProcessCroppableImage2 . "scripts/ProcessCroppableImage2.js");
+        $this->config->styles->add($this->config->urls->ProcessCroppableImage2 . "styles/ProcessCroppableImage2.css");
+        $this->config->scripts->add($this->config->urls->ProcessCroppableImage2 . "scripts/Jcrop/js/jquery.Jcrop.min.js");
+        $this->config->styles->add($this->config->urls->ProcessCroppableImage2 . "scripts/Jcrop/css/jquery.Jcrop.css");
 
         $this->wire('processHeadline', 'Croppable Image 3');
 
@@ -74,7 +74,7 @@ class ProcessCroppableImage3 extends Process implements Module {
         $suffix = $this->sanitizer->name($this->input->get->suffix);
 
         if($pages_id < 0 || strlen($filename) < 3) {
-            $out = CroppableImage3Helpers::getTemplate("jcrop", array(
+            $out = CroppableImage2Helpers::getTemplate("jcrop", array(
                 'invalidFieldText' => $this->getText('invalidFieldText')
             ));
             return $out->render();
@@ -103,24 +103,24 @@ class ProcessCroppableImage3 extends Process implements Module {
         $origHeight = $img->height;
         $imageUrl = $img->url;
 
-        $classname = 'ProcessWire\\' . CroppableImage3Helpers::ciGlobalConfigName;
-        $options = $classname::getCroppableImage3Options();
+        $classname = CroppableImage2Helpers::ciGlobalConfigName;
+        $options = $classname::getCroppableImage2Options();
         $x1 = $y1 = $w = $h = 0;
         $quality = $options['quality'];
         $sharpening = $options['sharpening'];
-        $keepCoords = new CroppableImage3KeepCoords($img, $suffix, $width, $height);
+        $keepCoords = new CroppableImage2KeepCoords($img, $suffix, $width, $height);
         if($keepCoords->read($x1, $y1, $w, $h, $quality, $sharpening)) {
             // we got values from session or IPTC, now add them to the options after successful validation
             $options['quality'] = is_integer($quality) && 0 < $quality && 101 > $quality ? $quality : $options['quality'];
             $options['sharpening'] = ImageSizer::sharpeningValueStr($sharpening) == $sharpening ? $sharpening : $options['sharpening'];
         }
         unset($keepCoords);
-        $globalOptions = $this->globalOptions;  // CroppableImage3Helpers::getGlobalConfigSettings();
+        $globalOptions = $this->globalOptions;  // CroppableImage2Helpers::getGlobalConfigSettings();
         // if user is not allowed to use DropDown-Selects
         if((bool)$globalOptions->manualSelectionDisabled) {
             // if the manual, dynamic usage of quality and sharpening is disabled, read and provide the defaults
             if($globalOptions->useImageEngineDefaults) {
-                $engineOptions = CroppableImage3Helpers::getImageEngineConfigSettings($img->filename);
+                $engineOptions = CroppableImage2Helpers::getImageEngineConfigSettings($img->filename);
                 $options['quality'] = isset($engineOptions->quality) ? $engineOptions->quality : $options['quality'];
                 $options['sharpening'] = isset($engineOptions->sharpening) && isset(self::$sharpeningValues[$engineOptions->sharpening]) ? self::$sharpeningValues[$engineOptions->sharpening] : $options['sharpening'];
             } else {
@@ -131,7 +131,7 @@ class ProcessCroppableImage3 extends Process implements Module {
         $upscaling = false === $options['upscaling'] ? '0' : '1';
 
 
-        $out = CroppableImage3Helpers::getTemplate("jcrop", array(
+        $out = CroppableImage2Helpers::getTemplate("jcrop", array(
             'applyCropText' => $this->getText('applyCropText'),
             'descriptionText' => sprintf(
                 $this->getText('descriptionText'),
@@ -212,7 +212,7 @@ class ProcessCroppableImage3 extends Process implements Module {
         if(!$suffix || strlen($suffix) == 0) throw new WireException("We have no Suffix");
 
         // validate suffix against crop-names
-        $cropSettings = new CroppableImage3CropSettings($field->field->cropSetting);
+        $cropSettings = new CroppableImage2CropSettings($field->field->cropSetting);
         $cropSetting = $cropSettings->getCropSetting($suffix, $page->template->name);
         if(!$cropSetting || !$cropSetting->isTemplateAllowed($page->template->name)) throw new WireException(sprintf($this->getText('noValidSuffix'), $suffix, $page->template->name));
 
@@ -222,10 +222,10 @@ class ProcessCroppableImage3 extends Process implements Module {
         $targetUrl = $img->pagefiles->url() . $basename;
 
         // get the merged imageoptions (default & config & session)
-        $classname = 'ProcessWire\\' . CroppableImage3Helpers::ciGlobalConfigName;
-        $options = $classname::getCroppableImage3Options();
+        $classname = CroppableImage2Helpers::ciGlobalConfigName;
+        $options = $classname::getCroppableImage2Options();
         // get all globalOptions
-        $globalOptions = $this->globalOptions;  // CroppableImage3Helpers::getGlobalConfigSettings();
+        $globalOptions = $this->globalOptions;  // CroppableImage2Helpers::getGlobalConfigSettings();
 
         // if user is allowed to use DropDown-Selects
         if(!(bool)$globalOptions->manualSelectionDisabled) {
@@ -236,11 +236,11 @@ class ProcessCroppableImage3 extends Process implements Module {
             // if the manual, dynamic usage of quality and sharpening is disabled, read and provide the defaults
             if($globalOptions->useImageEngineDefaults) {
                 // we may use image engine settings or settings from config ImageSizerOptions
-                $engineOptions = CroppableImage3Helpers::getImageEngineConfigSettings($img->filename);
+                $engineOptions = CroppableImage2Helpers::getImageEngineConfigSettings($img->filename);
                 $quality = isset($engineOptions->quality) ? $engineOptions->quality : $options['quality'];
                 $sharpening = isset($engineOptions->sharpening) && isset(self::$sharpeningValues[$engineOptions->sharpening]) ? self::$sharpeningValues[$engineOptions->sharpening] : $options['sharpening'];
             } else {
-                // we may use global settings from CroppableImage3 ModuleConfigPage or from config ImageSizerOptions
+                // we may use global settings from CroppableImage2 ModuleConfigPage or from config ImageSizerOptions
                 $quality = isset($globalOptions->optionQuality) ? $globalOptions->optionQuality : $options['quality'];
                 $sharpening = isset($globalOptions->optionSharpening) && isset(self::$sharpeningValues[$globalOptions->optionSharpening]) ? self::$sharpeningValues[$globalOptions->optionSharpening] : $options['sharpening'];
             }
@@ -278,7 +278,7 @@ class ProcessCroppableImage3 extends Process implements Module {
         );
         if($crop['w']>0 && $crop['h']>0) $imOptions['cropExtra'] = array($crop['x1'], $crop['y1'], $crop['w'], $crop['h']);
 
-        $newImg = CroppableImage3Helpers::renderImage($this, $img, $img->filename(), $targetPath, $targetWidth, $targetHeight, $imOptions);
+        $newImg = CroppableImage2Helpers::renderImage($this, $img, $img->filename(), $targetPath, $targetWidth, $targetHeight, $imOptions);
 
 // To fake a failed ImageSizer manipulation during development, uncomment the next line,
 // this enables to workout the styling for Errormessages in the ReviewScreen!
@@ -291,15 +291,15 @@ class ProcessCroppableImage3 extends Process implements Module {
             $confirmCropText = $this->getText('confirmCropText');
             $cropAgainText = $this->getText('cropAgainText');
             // keep as session & permanent storage
-            $keepCoords = new CroppableImage3KeepCoords($img, $suffix, $targetWidth, $targetHeight);
+            $keepCoords = new CroppableImage2KeepCoords($img, $suffix, $targetWidth, $targetHeight);
             $keepCoords->write($crop['x1'], $crop['y1'], $crop['w'], $crop['h'], $quality, $sharpening);
             unset($keepCoords);
         }
 
         // output for reviewing
-        $this->config->styles->add($this->config->urls->ProcessCroppableImage3 . "styles/ProcessCroppableImage3.css");
+        $this->config->styles->add($this->config->urls->ProcessCroppableImage2 . "styles/ProcessCroppableImage2.css");
 
-        $out = CroppableImage3Helpers::getTemplate("review-crop", array(
+        $out = CroppableImage2Helpers::getTemplate("review-crop", array(
             'confirmCropText' => $confirmCropText,
             'cropAgainText' => $cropAgainText,
             'backToCropUrl' => '../?' . http_build_query(array(
@@ -351,7 +351,7 @@ class ProcessCroppableImage3 extends Process implements Module {
         $p = new Page();
         $p->template = $this->templates->get('admin');
         $p->parent = $this->pages->get(3);  // /admin/pages
-        $p->title = 'Croppable Images 3';
+        $p->title = 'Croppable Images 2';
         $p->name = self::adminPageName;
         $p->process = $this;
         $p->addStatus(Page::statusHidden);  // should not show up as link to blank page in the Admin Pages-Menu

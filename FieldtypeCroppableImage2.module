@@ -1,16 +1,16 @@
-<?php namespace ProcessWire;
+<?php
 
 
-class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableModule {
+class FieldtypeCroppableImage2 extends FieldtypeImage implements ConfigurableModule {
 
     public static function getModuleInfo() {
         return array(
-            'title'    => 'Croppable Image 3 (Fieldtype)',
+            'title'    => 'Croppable Image 2 (Fieldtype & Main-Module)',
             'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '1.1.0',
-            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, CroppableImage3',  // , FieldtypeRangeSlider
-            #'installs' => 'InputfieldCroppableImage3, ProcessCroppableImage3',
+            'version'  => '1.1.1',
+            'requires' => 'ProcessWire>=2.8.20, PHP>=5.3.8',
+            'installs' => 'InputfieldCroppableImage2, ProcessCroppableImage2',
             'icon'     => 'crop'
         );
     }
@@ -18,9 +18,9 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
     protected $textCollection = array();
 
     protected function getText($key, $default = '(N/A)') {
-        if(!isset($this->textCollection['CroppableImage3TextCollectionVersion'])) {
-            require_once(dirname(__FILE__) . '/../lang/CroppableImage3TextCollection.php');
-            $c = new CroppableImage3TextCollection();
+        if(!isset($this->textCollection['CroppableImage2TextCollectionVersion'])) {
+            require_once(dirname(__FILE__) . '/lang/CroppableImage2TextCollection.php');
+            $c = new CroppableImage2TextCollection();
             $this->textCollection = $c->combine($this->textCollection);
         }
         return isset($this->textCollection[$key]) ? $this->textCollection[$key] : $default;
@@ -28,10 +28,10 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
 
     public function __construct() {
         parent::__construct();
-        $this->defaultInputfieldClass = 'InputfieldCroppableImage3'; // FieldtypeFile
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3KeepCoords.class.php');
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3Helpers.class.php');
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3CropSettings.class.php');
+        $this->defaultInputfieldClass = 'InputfieldCroppableImage2'; // FieldtypeFile
+        require_once(dirname(__FILE__) . '/classes/CroppableImage2KeepCoords.class.php');
+        require_once(dirname(__FILE__) . '/classes/CroppableImage2Helpers.class.php');
+        require_once(dirname(__FILE__) . '/classes/CroppableImage2CropSettings.class.php');
         foreach(self::getDefaultData() as $key => $value) {
             $this->$key = $value;
         }
@@ -79,7 +79,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
     public function getCropSettings(HookEvent $event) {
         #$inputFieldInstance = $this->_getInputFieldInstance($event);
         $inputFieldInstance = $event->object->field;
-        $cropSettings = new CroppableImage3CropSettings($inputFieldInstance->cropSetting);
+        $cropSettings = new CroppableImage2CropSettings($inputFieldInstance->cropSetting);
         $sets = $cropSettings->getCropSettingsForTemplate($event->object->page->template);
         $event->return = $sets;
         return true;
@@ -97,10 +97,10 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         if (!($input->name === 'cropSetting' && $args->type === 'FieldtypeImage')) return;
 
         // get the old settings
-        $oldSettings = new CroppableImage3CropSettings($this->fields->get($args->id)->cropSetting);
+        $oldSettings = new CroppableImage2CropSettings($this->fields->get($args->id)->cropSetting);
 
         // get the new settings
-        $cropSettings = new CroppableImage3CropSettings($args->cropSetting);
+        $cropSettings = new CroppableImage2CropSettings($args->cropSetting);
 
         // compare to detect changes
         $changes = ($oldSettings != $cropSettings) ? true : false;
@@ -176,18 +176,18 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         $suffix = $this->sanitizer->name($event->arguments(0));
         // check if we have a second argument with this call,
         // if we have one it should be a selector string, so push it through the typecaster
-        $second = CroppableImage3Helpers::typeCaster(
+        $second = CroppableImage2Helpers::typeCaster(
             array(
                 'int' => array('width', 'height', 'quality'),
                 //'float' => array('defaultGamma'),
                 'bool' => array('upscaling', 'cropping', 'forceNew', 'useUSM', 'useGD', 'autoRotation', 'keepICC', 'keepXMP', 'keepEXIF'),
                 'str' => array('sharpening', 'suffix')
                 ),
-            CroppableImage3Helpers::selector2array($this->sanitizer->text($event->arguments(1))));
+            CroppableImage2Helpers::selector2array($this->sanitizer->text($event->arguments(1))));
         // if we have a second param, we need to create an intermediate image first
         $intermediate = $second ? true : false;
 
-        // return InputfieldCroppableImage3 or null if not found
+        // return InputfieldCroppableImage2 or null if not found
         #$inputFieldInstance = $this->_getInputFieldInstance($event);
         $inputFieldInstance = $event->object->field;
 
@@ -198,7 +198,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
 
         // get the template name
         $templateName = $event->object->page->template->name;
-        $cropSettings = new CroppableImage3CropSettings($inputFieldInstance->cropSetting);
+        $cropSettings = new CroppableImage2CropSettings($inputFieldInstance->cropSetting);
 
         // check if the cropname is valid for this template
         if ($cropSetting = $cropSettings->getCropSetting($suffix, $templateName)) {
@@ -235,7 +235,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
             } else {
                 $second['suffix'] = array($suffix);
             }
-            $defaultOptions = self::getCroppableImage3Options();
+            $defaultOptions = self::getCroppableImage2Options();
             $secondOptions = array_merge($defaultOptions, $second);
             // validation
             $crop = ImageSizer::croppingValueStr($secondOptions['cropping']);
@@ -279,10 +279,10 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         // if the file do not match the final dimensions or if we have to render a followup variation, we do it now
         if (!$isReady || ($intermediate && isset($secondOptions['forceNew']) && true == $secondOptions['forceNew'])) {
             $x1 = $y1 = $w = $h = 0;
-            $options = self::getCroppableImage3Options();
+            $options = self::getCroppableImage2Options();
             $quality = $intermediate ? 100 : $options['quality'];
             $sharpening = $intermediate ? 'soft' : $options['sharpening'];
-            $cikk = new CroppableImage3KeepCoords();
+            $cikk = new CroppableImage2KeepCoords();
             if ($cikk->readSuffix($img, $suffix, $x1, $y1, $w, $h, $quality, $sharpening)) {
                 // we got values from session or IPTC, now add them to the options after successful validation
                 $options['quality'] = is_integer($quality) && 0 < $quality && 101 > $quality ? $quality : $options['quality'];
@@ -298,13 +298,13 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
             );
             if ($w>0 && $h>0) $imOptions['cropExtra'] = array($x1, $y1, $w, $h);
             // here we render the cropImage if it does not exist, if it does not match the final dimensions or if we have to create a following variation from it
-            $pageimage = CroppableImage3Helpers::renderImage($this, $img, $img->pagefiles->path . $img->basename, $imgPath, $this->w, $this->h, $imOptions);
+            $pageimage = CroppableImage2Helpers::renderImage($this, $img, $img->pagefiles->path . $img->basename, $imgPath, $this->w, $this->h, $imOptions);
             if ($intermediate) {
                 // create the final variation, based on the cropImage
                 $intermediateFile = pathinfo($imgPath, PATHINFO_DIRNAME) . '/intermediate_' . pathinfo($imgPath, PATHINFO_BASENAME);
                 rename($imgPath, $intermediateFile);
                 // this uses the same process as core pageimage does
-                $pageimage = CroppableImage3Helpers::renderImage($this, $img, $intermediateFile, $imgPath, $width, $height, $secondOptions);
+                $pageimage = CroppableImage2Helpers::renderImage($this, $img, $intermediateFile, $imgPath, $width, $height, $secondOptions);
                 if (file_exists($intermediateFile)) @unlink($intermediateFile);
             }
         }
@@ -365,8 +365,8 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
     private function cleaningRoutine($field, $old, $new, $removed, $changed) {
         #$collection = array();
 
-        $cikc = new CroppableImage3KeepCoords();
-        $cics = new CroppableImage3CropSettings($old);
+        $cikc = new CroppableImage2KeepCoords();
+        $cics = new CroppableImage2CropSettings($old);
 
         $TABLE = 'field_' . mb_strtolower($field->name);// TODO: lowercase name ?
         $r = wire('db')->query("SELECT pages_id,count(pages_id) FROM $TABLE GROUP BY pages_id ORDER BY pages_id");
@@ -453,7 +453,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
     }
 
 
-    static public function getCroppableImage3Options() {
+    static public function getCroppableImage2Options() {
         $defaultOptions = array(
             'autoRotation' => true,
             'upscaling' => true,
@@ -464,7 +464,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         );
         $configOptions = wire('config')->imageSizerOptions;
         if(!is_array($configOptions)) $configOptions = array();
-        $sessionOptions = wire('session')->CroppableImage3Options;
+        $sessionOptions = wire('session')->CroppableImage2Options;
         if(!is_array($sessionOptions)) $sessionOptions = array();
         $res = array_merge($defaultOptions, $configOptions, $sessionOptions);
         return $res;
@@ -473,8 +473,8 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
 
     static public function getModuleConfigInputfields(array $data) {
         $data = array_merge(self::getDefaultData(), $data);
-        require_once(dirname(__FILE__) . '/FieldtypeCroppableImage3ConfAdaptor.php');
-        $c = new FieldtypeCroppableImage3ConfAdaptor();
+        require_once(dirname(__FILE__) . '/FieldtypeCroppableImage2/FieldtypeCroppableImage2ConfAdaptor.php');
+        $c = new FieldtypeCroppableImage2ConfAdaptor();
         return $c->getConfig($data);
     }
 
