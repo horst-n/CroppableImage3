@@ -5,12 +5,12 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
 
     public static function getModuleInfo() {
         return array(
-            'title'    => 'Croppable Image 3 (Fieldtype)',
+            'title'    => 'Croppable Image 3 (Fieldtype & Main-Module)',
             'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '1.1.0',
-            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, CroppableImage3',  // , FieldtypeRangeSlider
-            #'installs' => 'InputfieldCroppableImage3, ProcessCroppableImage3',
+            'version'  => '1.1.1',
+            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8',
+            'installs' => 'InputfieldCroppableImage3, ProcessCroppableImage3',
             'icon'     => 'crop'
         );
     }
@@ -19,7 +19,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
 
     protected function getText($key, $default = '(N/A)') {
         if(!isset($this->textCollection['CroppableImage3TextCollectionVersion'])) {
-            require_once(dirname(__FILE__) . '/../lang/CroppableImage3TextCollection.php');
+            require_once(dirname(__FILE__) . '/lang/CroppableImage3TextCollection.php');
             $c = new CroppableImage3TextCollection();
             $this->textCollection = $c->combine($this->textCollection);
         }
@@ -29,9 +29,9 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
     public function __construct() {
         parent::__construct();
         $this->defaultInputfieldClass = 'InputfieldCroppableImage3'; // FieldtypeFile
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3KeepCoords.class.php');
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3Helpers.class.php');
-        require_once(dirname(__FILE__) . '/../classes/CroppableImage3CropSettings.class.php');
+        require_once(dirname(__FILE__) . '/classes/CroppableImage3KeepCoords.class.php');
+        require_once(dirname(__FILE__) . '/classes/CroppableImage3Helpers.class.php');
+        require_once(dirname(__FILE__) . '/classes/CroppableImage3CropSettings.class.php');
         foreach(self::getDefaultData() as $key => $value) {
             $this->$key = $value;
         }
@@ -473,7 +473,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
 
     static public function getModuleConfigInputfields(array $data) {
         $data = array_merge(self::getDefaultData(), $data);
-        require_once(dirname(__FILE__) . '/FieldtypeCroppableImage3ConfAdaptor.php');
+        require_once(dirname(__FILE__) . '/FieldtypeCroppableImage3/FieldtypeCroppableImage3ConfAdaptor.php');
         $c = new FieldtypeCroppableImage3ConfAdaptor();
         return $c->getConfig($data);
     }

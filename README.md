@@ -1,20 +1,19 @@
-﻿# Croppable Image 3
+# Croppable Image 3
 
-## Module for ProcessWire 3.0.20+
+## Module for ProcessWire >= 3.0.20
 
-## Version 1.1.0 Beta
+## Version 1.1.1 Beta
 
 
 ### How to install
 
 Just add the folder __CroppableImage3__ including all of its subfolders and files to your site/modules/ folder. After that go to the modules section in the PW-admin and refresh the list of available modules. You should see four new modules:
 
-* *CroppableImage3*
 * *Fieldtype*CroppableImage3
 * *Inputfield*CroppableImage3
 * *Process*CroppableImage3
 
-Use __*CroppableImage3*__ (without prefix) to install all at once.
+Use __*FieldtypeCroppableImage3*__ to install all at once!
 
 After that create a new field and make it use the fieldtype ``CroppableImage3``.
 
@@ -71,7 +70,7 @@ If you haven't cropped that image yet (via the cropping tool), a default croppin
 
 ### Credits
 
-#### Current Version (PW 3.0.20+) developed by
+#### Current Version (PW 3.0.20+ and PW 2.8.20+) developed by
 * Horst Nogajski (@horst-n)
 * Sponsored by http://dreikon.de/ (many thanks Niko & Timo)
 
