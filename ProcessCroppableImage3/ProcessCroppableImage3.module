@@ -1,4 +1,5 @@
-﻿<?php namespace ProcessWire;
+<?php namespace ProcessWire;
+
 
 class ProcessCroppableImage3 extends Process implements Module {
 
@@ -7,8 +8,8 @@ class ProcessCroppableImage3 extends Process implements Module {
             'title'       => 'Croppable Images 3 (Process)',
             'summary'     => 'One or more image uploads (optional predefined crops)',
             'author'      => 'Horst Nogajski',
-            'version'     => '1.1.2',
-            'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=1.1.2',
+            'version'     => '1.1.4',
+            'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, CroppableImage3>=1.1.4',
             'permission'  => self::adminPagePermission,
             'permissions' => array(self::adminPagePermission => 'Crop images with CroppableImage3'),
             'icon'        => 'crop'
