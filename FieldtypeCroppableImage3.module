@@ -1,4 +1,4 @@
-<?php namespace ProcessWire;
+﻿<?php namespace ProcessWire;
 
 
 class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableModule {
@@ -8,7 +8,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
             'title'    => 'Croppable Image 3 (Fieldtype & Main-Module)',
             'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '1.1.1',
+            'version'  => '1.1.2',
             'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8',
             'installs' => 'InputfieldCroppableImage3, ProcessCroppableImage3',
             'icon'     => 'crop'
