@@ -2,18 +2,19 @@
 
 ## Module for ProcessWire >= 3.0.20
 
-## Version 1.1.1 Beta
+## Version 1.1.6 Beta
 
 
 ### How to install
 
 Just add the folder __CroppableImage3__ including all of its subfolders and files to your site/modules/ folder. After that go to the modules section in the PW-admin and refresh the list of available modules. You should see four new modules:
 
+* *CroppableImage3*
 * *Fieldtype*CroppableImage3
 * *Inputfield*CroppableImage3
 * *Process*CroppableImage3
 
-Use __*FieldtypeCroppableImage3*__ to install all at once!
+Use __*CroppableImage3*__ to install all at once!
 
 After that create a new field and make it use the fieldtype ``CroppableImage3``.
 

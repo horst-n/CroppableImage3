@@ -16,7 +16,8 @@ class CroppableImage3Helpers extends WireData {
      * @return TemplateFile     TemplateFile instance
      */
     static public function getTemplate($templateName, $array = null) {
-        $template = new TemplateFile(dirname(__FILE__) . "/../templatefiles/{$templateName}.php");
+        //                                                                   CroppableImage3 !
+        $template = new TemplateFile(dirname(__FILE__) . "/../templatefiles/{$templateName}3.php");  // change 3 to 2 for NoneNameSpacedVersion !!
         if($array) {
             $template->setArray($array);
         }

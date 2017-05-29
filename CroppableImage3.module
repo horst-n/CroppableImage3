@@ -1,0 +1,26 @@
+<?php namespace ProcessWire;
+
+
+class CroppableImage3 extends WireData implements Module {
+
+    public static function getModuleInfo() {
+        return array(
+            'title'    => 'Croppable Image 3 (Wrapper-Module)',
+            'summary'  => 'One or more image uploads (optional predefined crops)',
+            'author'   => 'Horst Nogajski',
+            'version'  => '1.1.6',
+            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8',
+            'installs' => 'FieldtypeCroppableImage3',
+            'icon'     => 'crop'
+        );
+    }
+
+    public function ___uninstall() {
+        // Remove related modules on uninstall - not essential
+//        $this->modules->uninstall('ProcessCroppableImage3');
+//        $this->modules->uninstall('InputfieldCroppableImage3');
+//        $this->modules->uninstall('FieldtypeCroppableImage3');
+    }
+
+}
+
