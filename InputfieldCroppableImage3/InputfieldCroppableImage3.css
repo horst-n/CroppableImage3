@@ -111,7 +111,13 @@
         display: inline;
         vertical-align: middle;
         margin-left: 5px;
-        margin-bottom: 1px;
+        margin-bottom: 0;
+        /*button preview image size fix*/
+        width: 48px;
+        min-width: 48px;
+        height: auto;
+        /*prevent loading PW lightbox*/
+        pointer-events: none;
     }
     li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error,
     li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error {
@@ -176,8 +182,10 @@
     }
     li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll div.croppableImageButtons > div.cropLinks > a.crop-button,
     li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll div.croppableImageButtons > div.cropLinks > a.crop-button:hover {
-        padding: 4px 6px 4px 6px !important;
-        margin: 3px !important;
+        padding: 0 !important;
+        margin: 0 5px 5px 0 !important;
+        background: transparent !important;
+        color: inherit !important;
     }
 
 /*****************************************************************************************/
@@ -276,5 +284,4 @@
   /* button.InputfieldImageButtonCrop { display: none; } */
 
 /*****************************************************************************************/
-
 
