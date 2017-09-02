@@ -91,8 +91,12 @@ class FieldtypeCroppableImage3ConfAdaptor extends Wire {
             $ImageSizer = new ImageSizer();
             $engines = array_merge($ImageSizer->getEngines(), array('ImageSizerEngineGD'));
             $a = array();
+            $defaultQuality = isset($this->wire->config->imageSizerOptions['quality']) ? $this->wire->config->imageSizerOptions['quality'] : 90;
+            $defaultSharpening = isset($this->wire->config->imageSizerOptions['sharpening']) ? $this->wire->config->imageSizerOptions['sharpening'] : 'soft';
             foreach($engines as $e) {
-                $mcd = 'ImageSizerEngineGD' == $e ? wire('config')->imageSizerOptions : $modules->getModuleConfigData($e);
+                $mcd = 'ImageSizerEngineGD' == $e ? $this->wire('config')->imageSizerOptions : $modules->getModuleConfigData($e);
+                $mcd['quality'] = isset($mcd['quality']) ? $mcd['quality'] : $defaultQuality;
+                $mcd['sharpening'] = isset($mcd['sharpening']) ? $mcd['sharpening'] : $defaultQuality;
                 $a[] = ' [&nbsp;' . implode('&nbsp;|&nbsp;', array($e, $mcd['quality'], $mcd['sharpening'])) . '&nbsp;] ';
             }
             $s = implode(' - ', $a);
@@ -182,31 +186,29 @@ if(!class_exists('ProcessWire\\filo')) {
     /** @shortdesc: Stack, First In - Last Out  **/
     class filo {
 
-        /** @private **/
         var $elements;
-        /** @private **/
         var $debug;
 
-        /** @private **/
-        function filo($debug=false) {
+        function __construct($debug=false) {
             $this->debug = $debug;
             $this->zero();
         }
 
-        /** @private **/
+        function filo($debug=false) {
+            $this->__construct($debug);
+        }
+
         function push($elm) {
             array_push($this->elements, $elm);
             if($this->debug) echo "<p>filo->push(".$elm.")</p>";
         }
 
-        /** @private **/
         function pop() {
             $ret = array_pop( $this->elements );
             if($this->debug) echo "<p>filo->pop() = $ret</p>";
             return $ret;
         }
 
-        /** @private **/
         function zero() {
             $this->elements = array();
             if($this->debug) echo "<p>filo->zero()</p>";
