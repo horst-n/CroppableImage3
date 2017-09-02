@@ -96,10 +96,22 @@
     li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error {
         font-size: 1.2em !important;
         font-weight: bold !important;
-        padding: 12px 18px 12px 18px !important;
+        padding: 2px 2px 2px 18px !important;
         margin: 5px !important;
         border: 0 none transparent !important;
-        border-radius: 0px !important;
+        border-radius: 3px !important;
+        line-height: 48px !important;
+    }
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button > img,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button > img,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-hover > img,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-hover > img,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error > img,
+    li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error > img {
+        display: inline;
+        vertical-align: middle;
+        margin-left: 5px;
+        margin-bottom: 1px;
     }
     li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error,
     li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error {
@@ -251,3 +263,18 @@
     }
 
 /*****************************************************************************************/
+
+
+
+
+
+
+
+/*****************************************************************************************/
+  /** remove Crop-Button from core image field to avoid confusion for clients **/
+
+  /* button.InputfieldImageButtonCrop { display: none; } */
+
+/*****************************************************************************************/
+
+
