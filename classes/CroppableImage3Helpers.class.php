@@ -204,8 +204,8 @@ class CroppableImage3Helpers extends WireData {
                 'manualSelectionDisabled' => false,
                 'useImageEngineDefaults' => 1,
                 'labelTextType' => 'legacy',
-                'optionQualityoptionQuality' => is_int(wire()->config->imageSizerOptions['quality']) ? wire()->config->imageSizerOptions['quality'] : 90,
-                'optionQuality' => 1 // 'soft'
+                'optionQuality' => is_int(wire()->config->imageSizerOptions['quality']) ? wire()->config->imageSizerOptions['quality'] : 90,
+                'optionSharpening' => 1 // 'soft'
             );
         }
         return true === $asArray ? $gcd : self::arrayToObject($gcd);
