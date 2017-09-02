@@ -198,7 +198,16 @@ class CroppableImage3Helpers extends WireData {
         if(!is_array($gcd)) {
             throw new WireException(__('Unable to get Configdata of ' . self::ciGlobalConfigName . '!'));
         }
-
+        if(0 == count($gcd)) {
+            // user never looked up and saved Configpage of the module, so we add defaults here
+            $gcd = array(
+                'manualSelectionDisabled' => false,
+                'useImageEngineDefaults' => 1,
+                'labelTextType' => 'legacy',
+                'optionQualityoptionQuality' => is_int(wire()->config->imageSizerOptions['quality']) ? wire()->config->imageSizerOptions['quality'] : 90,
+                'optionQuality' => 1 // 'soft'
+            );
+        }
         return true === $asArray ? $gcd : self::arrayToObject($gcd);
     }
 
