@@ -21,8 +21,8 @@ body.modal, #content {
     overflow: hidden;
 }
 
-#hd button,
-#results button {
+#hd .ui-button,
+#results .ui-button {
     padding: 8px 12px !important;
 }
 
