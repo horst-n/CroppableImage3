@@ -8,7 +8,7 @@ class ProcessCroppableImage3 extends Process implements Module {
             'title'       => 'Croppable Images 3 (Process)',
             'summary'     => 'One or more image uploads (optional predefined crops)',
             'author'      => 'Horst Nogajski',
-            'version'     => '1.1.7',
+            'version'     => '1.1.8',
             'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=1.1.7',
             'permission'  => self::adminPagePermission,
             'permissions' => array(self::adminPagePermission => 'Crop images with CroppableImage3'),
@@ -295,6 +295,15 @@ class ProcessCroppableImage3 extends Process implements Module {
             $keepCoords = new CroppableImage3KeepCoords($img, $suffix, $targetWidth, $targetHeight);
             $keepCoords->write($crop['x1'], $crop['y1'], $crop['w'], $crop['h'], $quality, $sharpening);
             unset($keepCoords);
+
+            // remove old image variations of this crop version, now that we have successfully created a new crop image
+            foreach($img->getVariations() as $variation) {
+                $info = $variation->isVariation($variation->name, true);
+                $variationParentName = isset($info['parentName']) ? $info['parentName'] : null;
+                if($newImg->name == $variationParentName) {
+                    unlink($variation->filename);  // remove detected child of new CropImage
+                }
+            }
         }
 
         // output for reviewing
@@ -326,6 +335,7 @@ class ProcessCroppableImage3 extends Process implements Module {
 
         return $out->render();
     }
+
 
 
     public function ___upgrade($fromVersion, $toVersion) {
