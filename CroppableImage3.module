@@ -1,7 +1,6 @@
 <?php namespace ProcessWire;
 
 
-
 class CroppableImage3 extends WireData implements Module {
 
     public static function getModuleInfo() {
@@ -9,7 +8,7 @@ class CroppableImage3 extends WireData implements Module {
             'title'    => 'Croppable Image 3 (Wrapper-Module)',
             'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '1.1.9',
+            'version'  => '1.1.10',
             'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8',
             'installs' => 'FieldtypeCroppableImage3',
             'icon'     => 'crop'
@@ -24,3 +23,4 @@ class CroppableImage3 extends WireData implements Module {
     }
 
 }
+
