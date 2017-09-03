@@ -20,6 +20,12 @@ body.modal, #content {
     height: 54px;
     overflow: hidden;
 }
+
+#hd .ui-button,
+#results .ui-button {
+    padding: 8px 12px !important;
+}
+
 #hd:active, #hd:hover, #hd:focus {
     overflow: visible;
     height: auto !important;
@@ -230,4 +236,3 @@ img#preview:hover,
 #results > img:hover {
     background-color: rgb(55,55,55) !important;
 }
-
