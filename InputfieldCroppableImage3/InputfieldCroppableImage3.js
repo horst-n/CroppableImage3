@@ -71,24 +71,32 @@ $(function () {
 });
 
 
-function caiCloseReviewWindow() {
-    var selector = "button.ui-button.ui-dialog-titlebar-close";
+function caiCloseReviewWindow(imgUrl) {
+    var selector = "button.ui-button.ui-dialog-titlebar-close",
+        $cropLinks = $('.InputfieldImage .cropLinks a');
+
     $(selector).click();
-    $('.InputfieldImage .cropLinks a').tooltip('disable');
+
+    if (!$cropLinks.data('ui-tooltip')) {
+        $cropLinks.tooltip('disable');
+    }
+
     croppableTooltip();
-    $('.InputfieldImage .cropLinks a').tooltip('enable');
+    $cropLinks.tooltip('enable');
 
     $('.InputfieldImage .cropLinks a[data-croppable] img').each(function() {
 
-        var src = $(this).attr('src'),
-            newSrc,
-            dimensions = '.0x48';
+        // update only current image
+        if(imgUrl.indexOf($(this).parent('a').attr('data-image')) === -1) {
+            return true;    // continue
+        } else {
+            var src = $(this).attr('src'),
+                newSrc,
+                dimensions = '.0x48';
+        }
 
         if(src.indexOf(dimensions) !== -1) {
-            // if 0x48 present in the image src, remove it get the current cropped image
-            // size may be large but it's already loaded by the browser
-            // display size is controlled by CSS
-            newSrc = src.replace(dimensions, '');
+            newSrc = imgUrl;
         } else {
             if(src.indexOf('?v=') === -1) {
                 // there is no ?v= present, add ?v=1
@@ -102,4 +110,3 @@ function caiCloseReviewWindow() {
         $(this).attr('src', newSrc);
     });
 }
-
