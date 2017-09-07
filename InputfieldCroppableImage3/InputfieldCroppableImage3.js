@@ -58,8 +58,10 @@ $(function () {
                 },
                 tooltipClass: 'croppableTooltip',
                 track: true,
+                hide: false,
                 position: {
-                    my: 'center bottom-25'
+                    my: 'center bottom-25',
+                    collision: 'none'
                 }
             });
         };

@@ -114,12 +114,15 @@
         margin-bottom: 0;
 
         /*button preview image size fix*/
-        width: 48px;
         min-width: 48px;
+        min-height: 48px;
         height: auto;
 
         /*prevent loading PW lightbox*/
         pointer-events: none;
+    }
+    a.crop-button:hover img {
+        opacity: 0.75;
     }
     li.Inputfield.InputfieldImage.InputfieldCroppableImage3     div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error,
     li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll     div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error {
@@ -186,8 +189,9 @@
     li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll div.croppableImageButtons > div.cropLinks > a.crop-button:hover {
         padding: 0 0 0 10px !important;
         border-radius: 0 !important;
-        margin: 0 5px 5px 0 !important;
+        margin: 0 10px 10px 0 !important;
         line-height: 1 !important;
+        min-height: 48px !important;
         font-weight: normal !important;
     }
 
@@ -209,7 +213,7 @@ li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll d
   /** Crop image buttons thumbnail & warning tooltips **/
 
     .croppableTooltip {
-        border-radius: 0px;
+        border-radius: 0;
         box-shadow:
             0 1px 2px rgba(0,0,0,.65),
             0 0 4px rgba(0,0,0,.35);
@@ -292,10 +296,3 @@ li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll d
   /* button.InputfieldImageButtonCrop { display: none; } */
 
 /*****************************************************************************************/
-
-/*button preview image size fix*/
-
-.InputfieldImage .cropLinks a[data-croppable] img {
-    min-width: 48px;
-    height: auto;
-}
