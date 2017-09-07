@@ -1,0 +1,277 @@
+/**
+ *
+ * InputfieldCroppableImage3.css - v 1.0.1
+ *
+**/
+
+/*****************************************************************************************/
+/** Overrides of core settings **/
+
+/** Info color **/
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 div.InputfieldImageEdit__edit > span,
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll span.InputfieldImageEdit__info {
+    color: #444;
+}
+
+/** GridImage Tooltip **/
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .gridImage__tooltip {
+    /*transform: translate(-50%, 0);*/
+    /*transform: translate(-50%, 0) perspective(0) scale(1);*/
+    background: #fafafa;
+    opacity: 0;
+    transition: opacity .2s;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .gridImage:hover .gridImage__tooltip {
+    display: block;
+    opacity: 1;
+    transition: opacity .2s 1s;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .gridImage__tooltip table {
+    margin: 0;
+    border-spacing: 10px 0;
+    border-collapse: separate;
+    background: transparent !important;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .gridImage__tooltip table th {
+    color: rgb(120, 120, 120);
+    font-weight: normal;
+    text-align: right;
+    background: transparent !important;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .gridImage__tooltip table td {
+    color: rgb(25, 25, 25);
+    font-weight: bold;
+    text-align: left;
+    background: transparent !important;
+}
+
+/** GridImage Background **/
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .gridImage {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, .3);
+    border: 1px dashed transparent;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .gridImage:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, .6);
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .gridImage.gridImage--delete {
+    background: #E83561;
+}
+
+/*****************************************************************************************/
+
+/*****************************************************************************************/
+/** the Croppable Buttons **/
+
+div.croppableImageButtons {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-top: 16px;
+    padding-bottom: 20px;
+    border-top: 2px solid rgba(0, 0, 0, .2);
+    border-bottom: 2px solid rgba(0, 0, 0, .2);
+}
+
+div.croppableImageButtons > p {
+    font-size: 1.1em;
+    color: rgba(0, 0, 0, .3);
+    padding: 0 5px 0 5px;
+    margin: 0 0 12px 0;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error,
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error {
+    padding: 11px 18px 13px 18px !important;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 div.InputfieldImageEdit__edit div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error:hover,
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll div.croppableImageButtons > div.cropLinks > a.crop-button.ui-state-error:hover {
+    color: #fff;
+    background-color: #FF0000;
+}
+
+/*****************************************************************************************/
+
+/*****************************************************************************************/
+/** Overrides of core settings for the "Edit All" mode ("list" mode) **/
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage {
+    display: block;
+    width: 100%;
+    background-color: rgba(255, 255, 255, .7);
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage:before,
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage:after {
+    content: "";
+    display: table;
+    border-collapse: collapse;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage:after {
+    clear: both;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage__overflow {
+    padding: 0;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll .gridImage__overflow > img {
+    display: block;
+    position: static !important;
+    width: 100%;
+    max-width: 100% !important;
+    height: initial !important;
+    padding: 0 0 0 0;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll div.croppableImageButtons {
+    padding-top: 0;
+    border-top: 0 none;
+    border-bottom-width: 1px;
+    padding-bottom: 4px;
+    margin-bottom: 7px;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3.InputfieldImageEditAll div.croppableImageButtons > p {
+    display: none;
+}
+
+/*
+Preview button / image styles
+ */
+
+body a.ui-button.crop-button {
+    font-size: 1.16em;
+    padding: 0 0 0 12px;
+    border-radius: 0;
+    margin: 0 10px 10px 0;
+    line-height: 1;
+    height: 48px;
+    min-height: 48px;
+    max-height: 48px;
+    font-weight: normal;
+    border: none;
+}
+
+body a.ui-button.crop-button:not(:hover) {
+    background: #e5ebed;
+    color: inherit;
+}
+
+body a.ui-button i,
+body a.ui-button span {
+    position: relative;
+    top: 1px;
+}
+
+body a.ui-button.crop-button img {
+    display: inline;
+    vertical-align: middle;
+    margin-left: 7px;
+    margin-bottom: 0;
+
+    /*button preview image size fix*/
+    height: 48px;
+    min-height: 48px;
+    max-height: 48px;
+    width: auto;
+
+    /*prevent loading PW lightbox*/
+    pointer-events: none;
+}
+
+body a.ui-button.crop-button:hover img {
+    opacity: 0.7;
+}
+
+/*****************************************************************************************/
+
+/*****************************************************************************************/
+/** Crop image buttons thumbnail & warning tooltips **/
+
+.croppableTooltip {
+    border-radius: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .65),
+    0 0 4px rgba(0, 0, 0, .35);
+    border: 0;
+    color: #444;
+    background: #fafafa;
+    font-weight: normal;
+    text-transform: inherit;
+    padding: 0;
+    max-width: 260px;
+    max-height: 260px !important;
+}
+
+.croppableTooltip.warning {
+    padding: .5em;
+    color: #FFF;
+    background: #D82003;
+    text-align: justify;
+}
+
+.croppableTooltip img {
+    display: block;
+    max-width: 260px;
+    max-height: 260px;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+/* size info crop tooltip */
+.cropInfo {
+    position: absolute;
+    font-size: .9em;
+    font-weight: normal;
+    bottom: 0;
+    right: 0;
+    padding: 0 .5em;
+    height: 1.5em;
+    line-height: 1.5em;
+    color: #FFF;
+    text-shadow: 0 0 2px rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, .3);
+}
+
+/*****************************************************************************************/
+
+/*****************************************************************************************/
+/** Transparent-Images Background **/
+
+.croppableTooltip img,
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 div.gridImage__overflow,
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .InputfieldImageEdit__imagewrapper > div > img {
+    background: transparent;
+    background-color: rgba(196, 196, 196, .7);
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIRJREFUeNqUUkEOwCAIE8OP9hGf6g/ZPDRplCH0okZboVTM7GkB5pzRdestARE59lh7hvxVeQgBehNYZBAhxPueLZ+FSh4sIn7zWimbuLeSEmDCPgnFnNltfjTGCMXVc9g7/waJTYr6vibRS1tJwEteWoBJCEzaAy/rpQr2rFf6X3gFGADTg01sfuB1kAAAAABJRU5ErkJggg==");
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 8px;
+}
+
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 div.gridImage__overflow:hover,
+li.Inputfield.InputfieldImage.InputfieldCroppableImage3 .InputfieldImageEdit__imagewrapper > div > img:hover {
+    background-color: rgba(55, 55, 55, .9);
+}
+
+/*****************************************************************************************/
+
+/*****************************************************************************************/
+/** remove Crop-Button from core image field to avoid confusion for clients **/
+
+/* button.InputfieldImageButtonCrop { display: none; } */
+
+/*****************************************************************************************/
