@@ -31,7 +31,7 @@ $(function () {
             }
 
             $elements.tooltip({
-                items: 'a',
+                items: 'a:hover',
                 content: function() {
                     var $link = $(this),
                         suffix = $link.data('suffix'),
