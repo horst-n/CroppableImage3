@@ -152,7 +152,7 @@ class InputfieldCroppableImage3 extends InputfieldImage {
             $out .= "<span>";
             $out .= $cropSetting->name;
             $out .= "</span> ";
-            $out .= $warning ? '' : " <img src='{$pagefile->getCrop($suffix)->height(48)->url}' alt='' />";  // added a small indicator thumb to each crop-button
+            $out .= $warning ? '' : " <img src='{$pagefile->getCrop($suffix)->height(48)->url}?nc={$pagefile->mtime}' alt='' />";  // added a small indicator thumb to each crop-button
             $out .= "</a>";
 
         }
