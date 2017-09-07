@@ -4,7 +4,7 @@
     <img src='<?php echo $targetUrl ?>' alt='Cropped image' />
     <ul>
         <li>
-            <button class='ui-button ui-widget ui-corner-all ui-state-default' onclick='parent.caiCloseReviewWindow();'>
+            <button class='ui-button ui-widget ui-corner-all ui-state-default' onclick='parent.caiCloseReviewWindow("<?php echo $targetUrl; ?>");'>
                 <?php echo $confirmCropText; ?>
             </button>
         </li>
