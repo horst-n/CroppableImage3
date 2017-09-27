@@ -1,5 +1,6 @@
 // based on work by apeisa
 // enhanced, extended and refactored by owzim
+// version 1.0.0 - 2017-09-27
 
 (function($, window, undefined) { // iffy for scoping
 
@@ -110,17 +111,17 @@
                 if (isZeroSize) {
                     updateResizedValue(cropRectangle);
                 };
-                $(".jcrop-holder div .jcrop-tracker").attr("data-size", getFinalWidth(cropRectangle.w) + " x " + getFinalHeight(cropRectangle.h));
-                $(".jcrop-holder>.jcrop-tracker").attr("data-size", actualImageWidth + " x " + actualImageHeight);
+                $(".jcrop-holder div .jcrop-tracker").attr("data-size", parseInt(getFinalWidth(cropRectangle.w)) + " x " + parseInt(getFinalHeight(cropRectangle.h)));
+                $(".jcrop-holder>.jcrop-tracker").attr("data-size", parseInt(actualImageWidth) + " x " + parseInt(actualImageHeight));
             };
 
 
 
             updateResizedValue = function(cropRectangle) {
-                var visualImageWidth = $jcropTarget.width(),
-                    visualImageHeight = $jcropTarget.height(),
-                    // relation between crop rect andactual crop setting
-                    rectSettingRelation;
+                //var visualImageWidth = $jcropTarget.width(),
+                //    visualImageHeight = $jcropTarget.height(),
+                // relation between crop rect andactual crop setting
+                var rectSettingRelation;
 
                 if (cropSettingWidth === 0) {
                     rectSettingRelation = cropSettingHeight / cropRectangle.h;
@@ -138,7 +139,7 @@
 
                 var visualImageWidth = $jcropTarget.width(),
                     visualImageHeight = $jcropTarget.height(),
-                    // relation between crop rect andactual crop setting
+                    // relation between crop rect and actual crop setting
                     rectSettingRelation,
                     winWidth = $(window).width();
 
@@ -169,7 +170,7 @@
 
 
             roundpx = function(num) {
-                return Math.round(num) + 'px'
+                return Math.round(num) + 'px';
             };
 
 
@@ -217,7 +218,7 @@
             cropW = getSingleCrop(cropW);
             cropH = getSingleCrop(cropH);
 
-            // make the inital rectangle square, so that is not 0 and barely visible/usable
+            // make the initial rectangle square, so that is not 0 and barely visible/usable
             if (cropW === 0) { cropW = cropH };
             if (cropH === 0) { cropH = cropW };
 

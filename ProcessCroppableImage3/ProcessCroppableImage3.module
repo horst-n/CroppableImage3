@@ -8,7 +8,7 @@ class ProcessCroppableImage3 extends Process implements Module {
             'title'       => 'Croppable Images 3 (Process)',
             'summary'     => 'One or more image uploads (optional predefined crops)',
             'author'      => 'Horst Nogajski',
-            'version'     => '1.1.9',
+            'version'     => '1.1.10',
             'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=1.1.7',
             'permission'  => self::adminPagePermission,
             'permissions' => array(self::adminPagePermission => 'Crop images with CroppableImage3'),
@@ -53,10 +53,11 @@ class ProcessCroppableImage3 extends Process implements Module {
 
     public function ___execute() {
 
+        //$this->config->scripts->add($this->config->urls->ProcessCroppableImage3 . "scripts/Jcrop/js/jquery.color.0-9-13.js");
+        $this->config->scripts->add($this->config->urls->ProcessCroppableImage3 . "scripts/Jcrop/js/jquery.Jcrop.min.0-9-13.js");
+        $this->config->styles->add($this->config->urls->ProcessCroppableImage3 . "scripts/Jcrop/css/jquery.Jcrop.min.0-9-13.css");
         $this->config->scripts->add($this->config->urls->ProcessCroppableImage3 . "scripts/ProcessCroppableImage3.js");
         $this->config->styles->add($this->config->urls->ProcessCroppableImage3 . "styles/ProcessCroppableImage3.css");
-        $this->config->scripts->add($this->config->urls->ProcessCroppableImage3 . "scripts/Jcrop/js/jquery.Jcrop.min.js");
-        $this->config->styles->add($this->config->urls->ProcessCroppableImage3 . "scripts/Jcrop/css/jquery.Jcrop.css");
 
         $this->wire('processHeadline', 'Croppable Image 3');
 
