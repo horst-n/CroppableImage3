@@ -1,3 +1,5 @@
+/* version 1.0.0 - 2017/09/30 */
+
 body.modal, #content {
     margin: 0;
     padding: 0;
@@ -79,6 +81,10 @@ body.modal, #content {
     position: relative;
     margin: 60px 10px 10px 10px;
     z-index: 9997;
+}
+
+#bd img {
+    max-width: none;
 }
 
 #preview-container {
@@ -236,3 +242,4 @@ img#preview:hover,
 #results > img:hover {
     background-color: rgb(55,55,55) !important;
 }
+
