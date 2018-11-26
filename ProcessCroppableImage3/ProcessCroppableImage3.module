@@ -8,8 +8,8 @@ class ProcessCroppableImage3 extends Process implements Module {
             'title'       => 'Croppable Images 3 (Process)',
             'summary'     => 'One or more image uploads (optional predefined crops)',
             'author'      => 'Horst Nogajski',
-            'version'     => '1.1.10',
-            'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=1.1.7',
+            'version'     => '1.1.16',
+            'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=1.1.16',
             'permission'  => self::adminPagePermission,
             'permissions' => array(self::adminPagePermission => 'Crop images with CroppableImage3'),
             'icon'        => 'crop'
@@ -231,8 +231,8 @@ class ProcessCroppableImage3 extends Process implements Module {
         // if user is allowed to use DropDown-Selects
         if(!(bool)$globalOptions->manualSelectionDisabled) {
             // get quality & sharpening from post, sanitize and validate it
-            $quality = isset($this->input->post->quality) && is_numeric($this->input->post->quality) && 0<intval($this->input->post->quality) && 101>intval($this->input->post->quality) ? intval($this->input->post->quality) : $options['quality'];
-            $sharpening = isset($this->input->post->sharpening) && ImageSizer::sharpeningValueStr($this->input->post->sharpening)==$this->input->post->sharpening ? $this->input->post->sharpening : $options['sharpening'];
+            $quality = $this->input->post->quality && is_numeric($this->input->post->quality) && 0 < intval($this->input->post->quality) && 101 > intval($this->input->post->quality) ? intval($this->input->post->quality) : $options['quality'];
+            $sharpening = $this->input->post->sharpening && ImageSizer::sharpeningValueStr($this->input->post->sharpening)==$this->input->post->sharpening ? $this->input->post->sharpening : $options['sharpening'];
         } else {
             // if the manual, dynamic usage of quality and sharpening is disabled, read and provide the defaults
             if($globalOptions->useImageEngineDefaults) {
