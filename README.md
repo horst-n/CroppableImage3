@@ -1,8 +1,8 @@
-# Croppable Image 3
+﻿# Croppable Image 3
 
-## Module for ProcessWire >= 3.0.20
+## Module for ProcessWire >= 3.0.132
 
-## Version 1.1.16
+## Version 1.1.17-dev-webp
 
 
 ### How to install

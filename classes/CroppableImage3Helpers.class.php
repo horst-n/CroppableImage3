@@ -4,7 +4,7 @@
 class CroppableImage3Helpers extends WireData {
 
 
-    const ciVersion = 99;
+    const ciVersion = 132;
 
     const ciGlobalConfigName = 'FieldtypeCroppableImage3';
 
@@ -46,60 +46,25 @@ class CroppableImage3Helpers extends WireData {
 
 
     /**
-    * do the resizes like Pageimage does it
+    * do the resize through Pageimage::size
     *
-    * @param object $caller
     * @param pageimage $img
-    * @param string $targetFilename
-    * @param array $options1
-    * @param array $options2
+    * @param string $suffix
+    * @param int $width
+    * @param int $height
+    * @param array $options
     * @return pageimage
     */
-    static public function renderImage(&$caller, &$img, $sourceFilename, $targetFilename, $width, $height, $options) {
-
-        $filenameFinal = $targetFilename;
-        $filenameUnvalidated = $img->pagefiles->page->filesManager()->getTempPath() . basename($targetFilename);
-
-        if(file_exists($filenameFinal)) @unlink($filenameFinal);
-        if(file_exists($filenameUnvalidated)) @unlink($filenameUnvalidated);
-
-        if(@copy($sourceFilename, $filenameUnvalidated)) {
-            try {
-                $sizer = new ImageSizer($filenameUnvalidated);
-                $sizer->setOptions($options);
-                if($sizer->resize($width, $height) && @rename($filenameUnvalidated, $filenameFinal)) {
-                    // if script runs into a timeout while in ImageSizer, we never will reach this line and we will stay with $filenameUnvalidated
-                    if($caller->config->chmodFile) chmod($filenameFinal, octdec($caller->config->chmodFile));
-                } else {
-                    $caller->error = "ImageSizer::resize($width, $height) failed for $filenameUnvalidated";
-                }
-            } catch(Exception $e) {
-                $caller->error = $e->getMessage();
+    static public function renderImage(&$img, $suffix, $width, $height, $options) {
+        if(isset($options['suffix'])) {
+            if(!is_array($options['suffix'])) {
+                $options['suffix'] = (array)$options['suffix'];
             }
         } else {
-            $caller->error("Unable to copy $sourceFilename => $filenameUnvalidated");
+            $options['suffix'] = array();
         }
-
-        $pageimage = clone $img;
-
-        // if desired, user can check for property of $pageimage->error to see if an error occurred.
-        // if an error occurred, that error property will be populated with details
-        if($caller->error) {
-            // error condition: unlink copied file
-            if(is_file($filenameFinal)) @unlink($filenameFinal);
-            if(is_file($filenameUnvalidated)) @unlink($filenameUnvalidated);
-
-            // write an invalid image so it's clear something failed
-            $data = "This is intentionally invalid image data.\n$caller->error";
-            if(file_put_contents($filenameFinal, $data) !== false) wireChmod($filenameFinal);
-
-            // we also tell PW about it for logging and/or admin purposes
-            $caller->error($caller->error);
-        }
-
-        $pageimage->setFilename($filenameFinal);
-        $pageimage->setOriginal($img);
-
+        $options['suffix'][] = $suffix;
+        $pageimage = $img->size($width, $height, $options);
         return $pageimage;
     }
 

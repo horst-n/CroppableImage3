@@ -8,8 +8,8 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
             'title'    => 'Croppable Image 3 (Fieldtype & Main-Module)',
             'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '1.1.16',
-            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, CroppableImage3>=1.1.16',
+            'version'  => '1.1.17',
+            'requires' => 'ProcessWire>=3.0.132, PHP>=5.3.8, CroppableImage3>=1.1.17',
             'installs' => 'InputfieldCroppableImage3, ProcessCroppableImage3',
             'icon'     => 'crop'
         );
@@ -173,14 +173,14 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
     public function getCrop(HookEvent $event) {
 
         // get the suffix (cropname)
-        $suffix = $this->sanitizer->name($event->arguments(0));
+        $suffix = $suffixRender = $this->sanitizer->name($event->arguments(0));
         // check if we have a second argument with this call,
         // if we have one it should be a selector string, so push it through the typecaster
         $second = CroppableImage3Helpers::typeCaster(
             array(
                 'int' => array('width', 'height', 'quality'),
                 //'float' => array('defaultGamma'),
-                'bool' => array('upscaling', 'cropping', 'forceNew', 'useUSM', 'useGD', 'autoRotation', 'keepICC', 'keepXMP', 'keepEXIF'),
+                'bool' => array('upscaling', 'cropping', 'forceNew', 'useUSM', 'useGD', 'autoRotation', 'keepICC', 'keepXMP', 'keepEXIF', 'webpAdd', 'webOnly'),
                 'str' => array('sharpening', 'suffix')
                 ),
             CroppableImage3Helpers::selector2array($this->sanitizer->text($event->arguments(1))));
@@ -257,6 +257,9 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
             $basename .= '.' . $width . 'x' . $height . $crop . $suffixStr . "." . $img->ext;
             $imgPath = $img->pagefiles->path() . $basename;
             $imgUrl = $img->pagefiles->url() . $basename;
+
+            $suffixRender = $suffixStr;
+
         } else {
             $intermediate = false;
         }
@@ -298,13 +301,13 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
             );
             if ($w>0 && $h>0) $imOptions['cropExtra'] = array($x1, $y1, $w, $h);
             // here we render the cropImage if it does not exist, if it does not match the final dimensions or if we have to create a following variation from it
-            $pageimage = CroppableImage3Helpers::renderImage($this, $img, $img->pagefiles->path . $img->basename, $imgPath, $this->w, $this->h, $imOptions);
+            $pageimage = CroppableImage3Helpers::renderImage($img, $suffixRender, $this->w, $this->h, $imOptions);
             if ($intermediate) {
                 // create the final variation, based on the cropImage
                 $intermediateFile = pathinfo($imgPath, PATHINFO_DIRNAME) . '/intermediate_' . pathinfo($imgPath, PATHINFO_BASENAME);
                 rename($imgPath, $intermediateFile);
                 // this uses the same process as core pageimage does
-                $pageimage = CroppableImage3Helpers::renderImage($this, $img, $intermediateFile, $imgPath, $width, $height, $secondOptions);
+                $pageimage = CroppableImage3Helpers::renderImage($img, $suffixRender, $width, $height, $secondOptions);
                 if (file_exists($intermediateFile)) @unlink($intermediateFile);
             }
         }

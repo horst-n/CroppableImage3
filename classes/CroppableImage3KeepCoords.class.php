@@ -10,7 +10,7 @@
 class CroppableImage3KeepCoords extends WireData {
 
 
-    const ciVersion = 99;
+    const ciVersion = 132;
 
 
     private $permanentStorage = true;  // set it to true by default now! :)

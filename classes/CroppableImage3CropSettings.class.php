@@ -3,7 +3,7 @@
 class CroppableImage3CropSetting {  //extends WireData {
 
 
-    const ciVersion = 99;
+    const ciVersion = 132;
 
 
     public $name = null;
