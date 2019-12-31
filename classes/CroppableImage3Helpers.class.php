@@ -283,10 +283,10 @@ class CroppableImage3Helpers extends WireData {
             // test for #HexColor
             if(preg_match('/^(#*[a-f0-9]{3}([a-f0-9]{3})?)$/i', $value)) {
                 if(3 == strlen($value) || 6 == strlen($value)) $value = '#' . $value;
-                if($value{0} == '#') { //case of #nnnnnn or #nnn
+                if(substr($value, 0, 1) == '#') { //case of #nnnnnn or #nnn
                     $c = strtoupper($value);
                     if(strlen($c) == 4) { // Turn #RGB into #RRGGBB
-                        $c = "#" . $c{1} . $c{1} . $c{2} . $c{2} . $c{3} . $c{3};
+                        $c = "#" . substr($c, 0, 1) . substr($c, 0, 1) . substr($c, 1, 1) . substr($c, 1, 1) . substr($c, 2, 1) . substr($c, 2, 1);
                     }
                     $color = array();
                     $color[0] = hexdec(substr($c, 1, 2));
