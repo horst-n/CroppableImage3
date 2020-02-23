@@ -8,8 +8,8 @@ class InputfieldCroppableImage3 extends InputfieldImage {
             'title'    => 'Croppable Image 3 (Inputfield)',
             'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '1.1.16',
-            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=1.1.16',
+            'version'  => '1.1.18',
+            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=1.1.18',
             'icon'     => 'crop'
         );
     }
@@ -44,9 +44,10 @@ class InputfieldCroppableImage3 extends InputfieldImage {
 
     // don't let out the parent modules assets and wrapper !!
     public function renderReady(Inputfield $parent = null, $renderValueMode = false) {
+        parent::renderReady($parent, $renderValueMode);
         $this->wire('modules')->loadModuleFileAssets('InputfieldImage');
         $this->addClass('InputfieldImage', 'wrapClass');
-        return parent::renderReady($parent, $renderValueMode);
+        return true;
     }
 
 //    public function ___render() {
