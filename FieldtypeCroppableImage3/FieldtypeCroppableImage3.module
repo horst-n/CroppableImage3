@@ -45,28 +45,56 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         $this->addHook('Pageimage::getCrop', $this, 'getCrop');
 
         // add a new method to pageimages to retrieve CropSettings for this image
+        $this->addHook('Pageimage::getCropSettings3', $this, 'getCropSettings3');
         $this->addHook('Pageimage::getCropSettings', $this, 'getCropSettings');
 
         // validates CropSettings
         // and tracks if previously used settings are removed, and if so, raises cleaning routines
-        $this->addHookBefore('InputField::processInput', $this, 'HookValidateSettingsInput');
+        $this->addHookBefore('InputField::processInput3', $this, 'processInput3');
+        $this->addHookBefore('InputField::processInput', $this, 'processInput');
     }
 
-    // PROXY HOOK FUNCTION TO USE CAI3 & CAI4 IN PARALLEL MODE
-    public function getCrop(HookEvent $event) {
-        $inputFieldInstance = $event->object->field;
-        if(!$inputFieldInstance) return;
+    // PROXY HOOK FUNCTIONS TO USE CAI3 & CAI4 IN PARALLEL MODE
 
-        $caiType = null;
-        $caiType = 'InputfieldCroppableImage4' == $inputFieldInstance->inputfieldClass || 'FieldtypeCroppableImage4' == $inputFieldInstance->inputfieldClass ? 'getCrop4' : $caiType;
-        $caiType = 'InputfieldCroppableImage3' == $inputFieldInstance->inputfieldClass || 'FieldtypeCroppableImage3' == $inputFieldInstance->inputfieldClass ? 'getCrop3' : $caiType;
-        $condition = method_exists($this, $caiType);
-
-        if($condition) {
-            return $this->$caiType($event);
+        public function getCrop(HookEvent $event) {
+            return $this->caiTypeDelegation($event, __FUNCTION__);
         }
-    }
-    // PROXY HOOK FUNCTION TO USE CAI3 & CAI4 IN PARALLEL MODE
+
+        public function getCropSettings(HookEvent $event) {
+            return $this->caiTypeDelegation($event, __FUNCTION__);
+        }
+
+        public function processInput(HookEvent $event) {
+            $caiType = '0';
+            if(isset($event->arguments[0]['type'])) {
+                $caiType = 'FieldtypeCroppableImage3' == $event->arguments[0]['type'] ? '3' : $caiType;
+                $caiType = 'FieldtypeCroppableImage4' == $event->arguments[0]['type'] ? '4' : $caiType;
+            }
+            $methodname = __FUNCTION__ . $caiType;
+            if(method_exists($this, $methodname)) {
+                return $this->$methodname($event);
+            }
+            return false;
+        }
+
+        private function caiTypeDelegation($event, $methodname) {
+            $inputFieldInstance = $event->object->field;
+            if(!$inputFieldInstance) return false;
+
+            $caiType = '0';
+            $caiType = 'InputfieldCroppableImage4' == $inputFieldInstance->inputfieldClass || 'FieldtypeCroppableImage4' == $inputFieldInstance->inputfieldClass ? '4' : $caiType;
+            $caiType = 'InputfieldCroppableImage3' == $inputFieldInstance->inputfieldClass || 'FieldtypeCroppableImage3' == $inputFieldInstance->inputfieldClass ? '3' : $caiType;
+            $methodname = $methodname . $caiType;
+
+            $condition = method_exists($this, $methodname);
+            if($condition) {
+                return $this->$methodname($event);
+            }
+
+            return false;
+        }
+
+    // PROXY HOOK FUNCTIONS TO USE CAI3 & CAI4 IN PARALLEL MODE
 
 
 
@@ -96,7 +124,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
      * @param HookEvent $event
      * @return bool
      */
-    public function getCropSettings(HookEvent $event) {
+    public function getCropSettings3(HookEvent $event) {
         #$inputFieldInstance = $this->_getInputFieldInstance($event);
         $inputFieldInstance = $event->object->field;
         $cropSettings = new CroppableImage3CropSettings($inputFieldInstance->cropSetting);
@@ -109,7 +137,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
 
     // this does not only validate settings, it also raises cleaning routines
     // if a user has previously used settings deleted or changed
-    public function HookValidateSettingsInput(HookEvent $event) {
+    public function processInput3(HookEvent $event) {
 
         $input = $event->object;
 
