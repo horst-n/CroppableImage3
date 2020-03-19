@@ -8,8 +8,8 @@ class InputfieldCroppableImage3 extends InputfieldImage {
             'title'    => 'Croppable Image 3 (Inputfield)',
             'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '1.1.18',
-            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=1.1.18',
+            'version'  => '1.2.0',
+            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=1.2.0',
             'icon'     => 'crop'
         );
     }
@@ -138,7 +138,7 @@ class InputfieldCroppableImage3 extends InputfieldImage {
                 $attr['class'] = 'crop-button ui-button ui-button pw-modal-large pw-modal ui-state-default';
                 $attr['href'] = $cropUrlWithParams;
                 $attr['target'] = '_blank';
-                $attr['data-image'] = $pagefile->getCrop($suffix)->url;
+                $attr['data-image'] = $pagefile->getCrop3($suffix)->url;
                 $attr['data-width'] = $cropSetting->width;
             }
 

@@ -8,8 +8,8 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
             'title'    => 'Croppable Image 3 (Fieldtype & Main-Module)',
             'summary'  => 'One or more image uploads (optional predefined crops)',
             'author'   => 'Horst Nogajski',
-            'version'  => '1.1.18',
-            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, CroppableImage3>=1.1.18',
+            'version'  => '1.2.0',
+            'requires' => 'ProcessWire>=3.0.20, PHP>=5.3.8, CroppableImage3>=1.2.0',
             'installs' => 'InputfieldCroppableImage3, ProcessCroppableImage3',
             'icon'     => 'crop'
         );
@@ -41,6 +41,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         parent::init();
 
         // add a new method to pageimages to retrieve a cropped variation as pageimage object
+        $this->addHook('Pageimage::getCrop3', $this, 'getCrop3');
         $this->addHook('Pageimage::getCrop', $this, 'getCrop');
 
         // add a new method to pageimages to retrieve CropSettings for this image
@@ -50,6 +51,25 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
         // and tracks if previously used settings are removed, and if so, raises cleaning routines
         $this->addHookBefore('InputField::processInput', $this, 'HookValidateSettingsInput');
     }
+
+    // PROXY HOOK FUNCTION TO USE CAI3 & CAI4 IN PARALLEL MODE
+    public function getCrop(HookEvent $event) {
+        $inputFieldInstance = $event->object->field;
+        if(!$inputFieldInstance) return;
+
+        $caiType = null;
+        $caiType = 'InputfieldCroppableImage4' == $inputFieldInstance->inputfieldClass || 'FieldtypeCroppableImage4' == $inputFieldInstance->inputfieldClass ? 'getCrop4' : $caiType;
+        $caiType = 'InputfieldCroppableImage3' == $inputFieldInstance->inputfieldClass || 'FieldtypeCroppableImage3' == $inputFieldInstance->inputfieldClass ? 'getCrop3' : $caiType;
+        $condition = method_exists($this, $caiType);
+
+        if($condition) {
+            return $this->$caiType($event);
+        }
+    }
+    // PROXY HOOK FUNCTION TO USE CAI3 & CAI4 IN PARALLEL MODE
+
+
+
 
 
     /**
@@ -170,7 +190,7 @@ class FieldtypeCroppableImage3 extends FieldtypeImage implements ConfigurableMod
 
 
     // until now, (02.11.2014), getCrop() isn't affected by option "forceNew" in regard of the suffix-crop
-    public function getCrop(HookEvent $event) {
+    public function getCrop3(HookEvent $event) {
 
         // get the suffix (cropname)
         $suffix = $this->sanitizer->name($event->arguments(0));

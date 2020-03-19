@@ -8,8 +8,8 @@ class ProcessCroppableImage3 extends Process implements Module {
             'title'       => 'Croppable Images 3 (Process)',
             'summary'     => 'One or more image uploads (optional predefined crops)',
             'author'      => 'Horst Nogajski',
-            'version'     => '1.1.18',
-            'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=1.1.18',
+            'version'     => '1.2.0',
+            'requires'    => 'ProcessWire>=3.0.20, PHP>=5.3.8, FieldtypeCroppableImage3>=1.2.0',
             'permission'  => self::adminPagePermission,
             'permissions' => array(self::adminPagePermission => 'Crop images with CroppableImage3'),
             'icon'        => 'crop'
